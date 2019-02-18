@@ -5,10 +5,7 @@
  */
 package carritodecompras.productos;
 
-import carritodecompras.productos.AdministradorDeOperaciones;
-import carritodecompras.productos.Categoria;
-import carritodecompras.productos.CategoriaArchivo;
-import carritodecompras.productos.CategoriaSocket;
+import static carritodecompras.servidor.IdOperaciones.*;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -35,9 +32,15 @@ public class Cliente
              * necsitas instanciarla sus metodods son estaticos)  
              * e implemnetar la logica para la interfaz gráfica del usuario
              */
+            
+            /*
             ListaCategoria lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
             lc.mostrar();
+            */
             
+            //Las categorias como CELULARES son constantes que se encuentran en IdOperaciones
+            ListaProductos lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois, CELULARES);
+            lp.mostrar();
         }
         catch(Exception e)
         {

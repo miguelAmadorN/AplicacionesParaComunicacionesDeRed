@@ -7,9 +7,12 @@ package carritodecompras.productos;
 
 import java.awt.image.BufferedImage;
 import java.io.Externalizable;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -62,6 +65,11 @@ public class ProductoArchivo extends Producto implements Externalizable{
         setImagenes((String[]) oi.readObject()); 
         setCategoria((String) oi.readObject()); 
         setPalabrasClave((String[]) oi.readObject());
+        final int numImgs = getImagenes().length;
+        imagenesEnBuffer = new BufferedImage[numImgs];
+        for (int i = 0; i < numImgs; i++) 
+            imagenesEnBuffer[i] = ImageIO.read(new File(getImagenes()[i]));
+        
     }
     
 }

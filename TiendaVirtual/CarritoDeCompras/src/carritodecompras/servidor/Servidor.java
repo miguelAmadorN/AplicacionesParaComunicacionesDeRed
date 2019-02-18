@@ -38,6 +38,7 @@ public class Servidor {
                         + cl.getInetAddress() + ":" + cl.getPort() + "\n");
                 oos = new ObjectOutputStream(cl.getOutputStream());
                 ois = new ObjectInputStream(cl.getInputStream());
+               
                 Operacion op = (Operacion) ois.readObject();
                 gdd.ejecutarOperacion(oos, op);
                 

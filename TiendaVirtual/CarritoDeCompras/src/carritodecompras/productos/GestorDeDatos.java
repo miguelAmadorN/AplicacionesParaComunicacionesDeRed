@@ -23,7 +23,10 @@ import java.util.HashMap;
  * @author miguel
  */
 public class GestorDeDatos {
-
+    private final String RUTA_CELULARES = "Archivos/Productos/Categorias/Telefonia/Telefonia.out";
+    /**
+     * Agregar las demás rutas que hagan falta para cada categoria 
+     */
     
     private HashMap <String, Usuario> usuarios = new HashMap<String, Usuario>();
     private HashMap <String, Producto> productos = new HashMap<String, Producto>();
@@ -55,6 +58,7 @@ public class GestorDeDatos {
                 obtenerCategorias(oos, op);
                 break;
             case OBTENER_PRODUCTOS_CATEGORIA:
+                obtenerProductosDeUnaCategoria(oos, op, op.getParametros());
                 break;
             case REGISTAR_USUARIO:
                 break;
@@ -72,6 +76,56 @@ public class GestorDeDatos {
         }
     }
     
+    private String obtenerRutaDeCategoria(final String CATEGORIA)
+    {
+        switch(CATEGORIA)
+        {
+            case CELULARES:
+                return RUTA_CELULARES;
+            default:
+                return null;
+        }
+        
+    }
+            
+    private void obtenerProductosDeUnaCategoria(ObjectOutputStream oos, Operacion op, final String CATEGORIA)
+    throws IOException, ClassNotFoundException 
+    {
+         System.out.println("Serializando... \n");
+        Producto pa = new ProductoArchivo(1,"Xiaomi", "Bonito...", 2.61, 100,
+                            new String[]{"Azul", "Verde", "Dorado"}, new String []{"mi 6x", "mi a2"},
+                            new String[]{"Archivos/Productos/Categorias/Telefonia/Xiaomi/xiaomi1.jpg",
+                                "Archivos/Productos/Categorias/Telefonia/Xiaomi/xiaomi2.jpg"}, 
+                                null, "Celulares", new String[]{"Gama media", "Lujo"});
+        
+        Producto pa2 = new ProductoArchivo(1,"Xiaomi", "Bonito...", 2.61, 100,
+                            new String[]{"Azul", "Verde", "Dorado"}, new String []{"mi 6x", "mi a2"},
+                            new String[]{"Archivos/Productos/Categorias/Telefonia/Xiaomi/xiaomi1.jpg",
+                                "Archivos/Productos/Categorias/Telefonia/Xiaomi/xiaomi2.jpg"}, 
+                                null, "Celulares", new String[]{"Gama media", "Lujo"});
+        
+        ListaProductos lp = new ListaProductos();
+        lp.add(pa);
+        lp.add(pa2);
+        
+        
+        ObjectOutputStream o = new ObjectOutputStream(
+                new FileOutputStream(obtenerRutaDeCategoria(CATEGORIA)));
+        o.writeObject(lp);
+        o.close();
+        /**
+         * Lo anterior en este metodo ya debe de estar implementado una carpeta por categoria
+         * La carpeta donde está almacenada la informacion es archivos
+         */
+        System.out.println("\nRecuperando objeto...\n");
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(obtenerRutaDeCategoria(CATEGORIA)));
+        lp = (ListaProductos) in.readObject();
+        //Enviar al cliente
+        oos.writeObject(lp);
+        oos.flush();
+        
+        
+    }
     
     private void obtenerCategorias(ObjectOutputStream oos, Operacion op) 
             throws IOException, ClassNotFoundException 
