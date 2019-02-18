@@ -12,10 +12,12 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/servidor/productos/main.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/servidor/productos/CategoriaSocket.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/servidor/productos/ProductoSocket.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/servidor/productos/Producto.java</file>
+            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/Cliente.java</file>
+            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/servidor/Servidor.java</file>
+            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/OpcionesServidor.java</file>
+            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/ListaProductos.java</file>
+            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/AdministradorDeOperaciones.java</file>
+            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/servidor/IdOperaciones.java</file>
         </group>
     </open-files>
 </project-private>

@@ -23,7 +23,8 @@ public class AdministradorDeOperaciones {
     * @throws IOException
     * @throws ClassNotFoundException 
     */
-    public static ListaCategoria obtenerTodasLasCategorias(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException
+    public static ListaCategoria obtenerTodasLasCategorias(ObjectOutputStream oos, ObjectInputStream ois) 
+            throws IOException, ClassNotFoundException
     {
         oos.writeObject(new Operacion(OBTENER_CATEGORIAS, null));
         oos.flush();
@@ -40,7 +41,8 @@ public class AdministradorDeOperaciones {
      * @throws IOException
      * @throws ClassNotFoundException 
      */
-    public static Usuario identificarUsuario(ObjectOutputStream oos, ObjectInputStream ois, Usuario usuario) throws IOException, ClassNotFoundException
+    public static Usuario identificarUsuario(ObjectOutputStream oos, ObjectInputStream ois, Usuario usuario) 
+            throws IOException, ClassNotFoundException
     {
         oos.writeObject(new Operacion(IDENTIFICAR_USUARIO,null));
         oos.flush();
@@ -58,7 +60,8 @@ public class AdministradorDeOperaciones {
      * @throws IOException
      * @throws ClassNotFoundException 
      */
-    public static ListaProductos obtenerProductosDeUnaCategoria(ObjectOutputStream oos, ObjectInputStream ois, final String CATEGORIA) throws IOException, ClassNotFoundException
+    public static ListaProductos obtenerProductosDeUnaCategoria(ObjectOutputStream oos, 
+            ObjectInputStream ois, final String CATEGORIA) throws IOException, ClassNotFoundException
     {
         oos.writeObject(new Operacion(OBTENER_PRODUCTOS_CATEGORIA, CATEGORIA));
         oos.flush();
@@ -73,7 +76,8 @@ public class AdministradorDeOperaciones {
      * @throws IOException
      * @throws ClassNotFoundException 
      */
-    public static ListaEmpresasDeEnvio obtenerEmpresasDeEnvio(ObjectOutputStream oos, ObjectInputStream ois) throws IOException, ClassNotFoundException
+    public static ListaEmpresasDeEnvio obtenerEmpresasDeEnvio(ObjectOutputStream oos, ObjectInputStream ois) 
+            throws IOException, ClassNotFoundException
     {
         oos.writeObject(new Operacion(OBTENER_EMPRESAS_DE_ENVIO, null));
         oos.flush();
@@ -90,7 +94,8 @@ public class AdministradorDeOperaciones {
      * @throws IOException
      * @throws ClassNotFoundException 
      */
-    public static boolean registrarUsuario(ObjectOutputStream oos, ObjectInputStream ois, Usuario usuario) throws IOException, ClassNotFoundException
+    public static boolean registrarUsuario(ObjectOutputStream oos, ObjectInputStream ois, Usuario usuario) 
+            throws IOException, ClassNotFoundException
     {
         oos.writeObject(new Operacion(REGISTAR_USUARIO, null));
         oos.flush();
@@ -109,7 +114,8 @@ public class AdministradorDeOperaciones {
      * @throws IOException
      * @throws ClassNotFoundException 
      */
-    public static boolean comprar(ObjectOutputStream oos, ObjectInputStream ois, CarritoCompras carrito) throws IOException, ClassNotFoundException
+    public static boolean comprar(ObjectOutputStream oos, ObjectInputStream ois, CarritoCompras carrito) 
+            throws IOException, ClassNotFoundException
     {
         oos.writeObject(new Operacion(COMPRAR, null));
         oos.flush();
@@ -127,7 +133,8 @@ public class AdministradorDeOperaciones {
      * @throws IOException
      * @throws ClassNotFoundException 
      */
-    public static ListaProductos buscarProducto(ObjectOutputStream oos, ObjectInputStream ois, BusquedaProductos busqueda) throws IOException, ClassNotFoundException
+    public static ListaProductos buscarProducto(ObjectOutputStream oos, ObjectInputStream ois, 
+            BusquedaProductos busqueda) throws IOException, ClassNotFoundException
     {
         oos.writeObject(new Operacion(BUSCAR_PRODUCTO, null));
         oos.flush();
