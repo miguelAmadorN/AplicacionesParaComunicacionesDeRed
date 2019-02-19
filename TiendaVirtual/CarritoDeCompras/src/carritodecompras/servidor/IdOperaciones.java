@@ -19,7 +19,7 @@ public class IdOperaciones {
     public final static int OBTENER_EMPRESAS_DE_ENVIO      = 7;
     
     
-    public final static String TELEFONIA                   = "telefonia";
+    public final static String TELEFONIA                   = "telefonia";    
     public final static String INFORMATICA                 = "informatica";
     public final static String DEPORTES                    = "celulares";
     public final static String LIBROS                      = "libros";

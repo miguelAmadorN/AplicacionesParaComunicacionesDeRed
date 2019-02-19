@@ -33,7 +33,7 @@ public class Cliente
              * e implemnetar la logica para la interfaz gráfica del usuario
              */
             
-            /*
+/*           
             ListaCategoria lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
             lc.mostrar();
             
@@ -42,7 +42,8 @@ public class Cliente
             ListaProductos lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois, CELULARES);
             lp.mostrar();
 */
-            
+            home h = new home(oos,ois);
+            h.setVisible(true);
             ListaEmpresasDeEnvio lede = AdministradorDeOperaciones.obtenerEmpresasDeEnvio(oos, ois);
             lede.mostrar();
         }
