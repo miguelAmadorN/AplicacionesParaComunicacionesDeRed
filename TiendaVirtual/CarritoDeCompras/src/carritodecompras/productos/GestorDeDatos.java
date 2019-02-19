@@ -82,7 +82,7 @@ public class GestorDeDatos {
     {
         switch(CATEGORIA)
         {
-            case CELULARES:
+            case TELEFONIA:
                 return RUTA_CELULARES;
             default:
                 return null;

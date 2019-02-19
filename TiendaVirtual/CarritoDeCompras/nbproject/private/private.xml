@@ -12,24 +12,8 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/Cliente.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/ImagenesInterfaz/UIFunctions.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/OpcionesServidor.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/ListaCategoria.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/BusquedaProductos.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/Categoria.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/CategoriaSocket.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/Producto.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/CarritoCompras.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/servidor/IdOperaciones.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/GestorDeDatos.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/servidor/Servidor.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/InformacionDeEnvio.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/ListaEmpresasDeEnvio.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/EmpresaDeEnvio.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/CategoriaArchivo.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/ListaProductos.java</file>
-            <file>file:/home/miguel/NetBeansProjects/CarritoDeCompras/src/carritodecompras/productos/AdministradorDeOperaciones.java</file>
+            <file>file:/home/rodrigo/Documentos/Escuela/ESCOM/8vo%20Semestre/Aplicaciones%20para%20comunicaciones%20en%20red/Proyecto%20Tienda/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/GestorDeDatos.java</file>
+            <file>file:/home/rodrigo/Documentos/Escuela/ESCOM/8vo%20Semestre/Aplicaciones%20para%20comunicaciones%20en%20red/Proyecto%20Tienda/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/servidor/IdOperaciones.java</file>
         </group>
     </open-files>
 </project-private>
