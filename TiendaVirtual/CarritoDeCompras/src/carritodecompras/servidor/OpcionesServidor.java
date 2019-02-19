@@ -5,6 +5,7 @@
  */
 package carritodecompras.servidor;
 
+import carritodecompras.productos.DialogoPaqueteria;
 import ImagenesInterfaz.PanelFondo;
 import ImagenesInterfaz.UIFunctions;
 import carritodecompras.productos.GestorDeDatos;
@@ -14,10 +15,13 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 
 /**
@@ -214,7 +218,14 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
         }
         else if(ae.getSource().equals(this.Paqueterias))
         {
-            DialogoPaqueteria dialog = new DialogoPaqueteria(new javax.swing.JFrame(), true);
+            DialogoPaqueteria dialog = null;
+            try {
+                dialog = new DialogoPaqueteria(new javax.swing.JFrame(), true);
+            } catch (IOException ex) {
+                Logger.getLogger(OpcionesServidor.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(OpcionesServidor.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override

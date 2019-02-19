@@ -72,5 +72,13 @@ public class EmpresaDeEnvio implements Serializable{
     public EmpresaDeEnvio() {
     }
         
-    
+    public void mostrar()
+    {
+        System.out.print("Id: " + id + "\n" +
+                         "Nombre: " + nombre + "\n" +
+                         "Tiempo de entrega: " + tiempoDeEntrega + "\n" +
+                         "Costo: " + costo + "\n" +
+                         "Disponibilidad: " + disponibilidad + "\n"
+                        );
+    }
 }
