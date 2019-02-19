@@ -5,6 +5,7 @@
  */
 package carritodecompras.productos;
 
+import ImagenesInterfaz.PanelFondo;
 import ImagenesInterfaz.UIFunctions;
 import com.sun.awt.AWTUtilities;
 import java.awt.Image;
@@ -23,8 +24,11 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
      */
     private int x;
     private int y;
+    private final PanelFondo contenedor = new PanelFondo("/ImagenesInterfaz/fondo.png");
+
     public OpcionesServidor() {
         
+        setContentPane(contenedor);
         this.setUndecorated(true);//Elimina los bordes de la ventana
         initComponents();
         init();
@@ -33,7 +37,7 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
         AWTUtilities.setWindowOpaque(this, false);// Genera transparencia
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/ImagenesInterfaz/Icono.png"));
         setIconImage(icon);
-        this.setTitle("CML EXPRESS");
+        this.setTitle("CML EXPRESS"); 
         setVisible(true);
     }
 
@@ -57,7 +61,7 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
         jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(109, 247, 116));
+        setBackground(new java.awt.Color(46, 254, 89));
 
         Close.setText("X");
 
