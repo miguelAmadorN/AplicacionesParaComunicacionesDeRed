@@ -36,15 +36,16 @@ public class Cliente
             /*
             ListaCategoria lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
             lc.mostrar();
-            
+            */
             
             //Las categorias como CELULARES son constantes que se encuentran en IdOperaciones
-            ListaProductos lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois, CELULARES);
+            ListaProductos lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois, VIDEOJUEGOS);
             lp.mostrar();
-*/
-            
+
+            /*
             ListaEmpresasDeEnvio lede = AdministradorDeOperaciones.obtenerEmpresasDeEnvio(oos, ois);
             lede.mostrar();
+*/
         }
         catch(Exception e)
         {
