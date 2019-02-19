@@ -13,6 +13,14 @@ import java.io.Serializable;
  */
 public class EmpresaDeEnvio implements Serializable{
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -45,17 +53,21 @@ public class EmpresaDeEnvio implements Serializable{
         this.disponibilidad = disponibilidad;
     }
     
+    protected int id;
     private String nombre;
     private String tiempoDeEntrega;
     private double costo;
     private  boolean disponibilidad;
 
-    public EmpresaDeEnvio(String nombre, String tiempoDeEntrega, double costo, boolean disponibilidad) {
+    public EmpresaDeEnvio(int id, String nombre, String tiempoDeEntrega, double costo, boolean disponibilidad) {
+        this.id = id;
         this.nombre = nombre;
         this.tiempoDeEntrega = tiempoDeEntrega;
         this.costo = costo;
         this.disponibilidad = disponibilidad;
     }
+
+  
 
     public EmpresaDeEnvio() {
     }

@@ -3,15 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package carritodecompras.productos;
+package carritodecompras.servidor;
 
 import ImagenesInterfaz.PanelFondo;
 import ImagenesInterfaz.UIFunctions;
+import carritodecompras.productos.GestorDeDatos;
+import carritodecompras.productos.Operacion;
 import com.sun.awt.AWTUtilities;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import javax.swing.JDialog;
 
 /**
  *
@@ -162,23 +169,73 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
                 new OpcionesServidor().setVisible(true);
             }
         });
+        
+        ObjectOutputStream oos = null;
+        ObjectInputStream ois = null;
+
+        try {
+            ServerSocket s = new ServerSocket(9999);
+            System.out.print("Servidor iniciado...\n");
+            GestorDeDatos gdd = GestorDeDatos.getInstance();
+            for (;;) {
+                Socket cl = s.accept();
+                System.out.print("Cliente conectado desde "
+                        + cl.getInetAddress() + ":" + cl.getPort() + "\n");
+                oos = new ObjectOutputStream(cl.getOutputStream());
+                ois = new ObjectInputStream(cl.getInputStream());
+               
+                Operacion op = (Operacion) ois.readObject();
+                gdd.ejecutarOperacion(oos, op);
+                
+                /**
+                 * El GestorDeDatos es el encargado de recibir la operacion
+                 * ejecutarla y devolver lo solicitado
+                 */
+                
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+        
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if(ae.getSource().equals(this.Close)){
-            UIFunctions.closeWindow();
-            
+        if(ae.getSource().equals(this.Close))
+        {
+            UIFunctions.closeWindow();    
         }
-        else if(ae.getSource().equals(this.Minimize)){
+        else if(ae.getSource().equals(this.Minimize))
+        {
             UIFunctions.minimizeWindow(this);
         }
+        else if(ae.getSource().equals(this.Paqueterias))
+        {
+            DialogoPaqueteria dialog = new DialogoPaqueteria(new javax.swing.JFrame(), true);
+            
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        
+                    }
+                });
+            dialog.setVisible(true);
+        }
+        /**
+         * Agrega tus else if del boton productos  y sus JDialog
+         */
     }
     
      private void init()
      {
         this.Close.addActionListener(this);
         this.Minimize.addActionListener(this);
+        this.Paqueterias.addActionListener(this);
+        this.usuarios.addActionListener(this);
+        this.Productos.addActionListener(this);
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {

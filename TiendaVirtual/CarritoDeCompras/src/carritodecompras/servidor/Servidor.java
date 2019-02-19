@@ -23,7 +23,10 @@ import java.net.Socket;
  */
 public class Servidor {
     
-    
+    /**
+     * PAra pruebas 
+     * @param args 
+     */
     public static void main(String args[]) {
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
