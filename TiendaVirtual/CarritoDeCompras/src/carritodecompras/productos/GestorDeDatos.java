@@ -7,6 +7,7 @@ package carritodecompras.productos;
 
 import carritodecompras.productos.Categoria;
 import carritodecompras.productos.CategoriaSocket;
+import static carritodecompras.productos.ControladorPaqueteria.RUTA_PAQUETERIA;
 import static carritodecompras.servidor.IdOperaciones.*;
 import carritodecompras.productos.Operacion;
 import carritodecompras.productos.Producto;
@@ -69,6 +70,7 @@ public class GestorDeDatos {
             case BUSCAR_PRODUCTO:
                 break;
             case OBTENER_EMPRESAS_DE_ENVIO:
+                obntenerEmpresasDeEnvio(oos);
                 break;
                 
             default:
@@ -87,7 +89,16 @@ public class GestorDeDatos {
         }
         
     }
-            
+       
+    private void obntenerEmpresasDeEnvio(ObjectOutputStream oos) throws IOException, ClassNotFoundException
+    {
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(RUTA_PAQUETERIA));
+        ListaEmpresasDeEnvio lp = (ListaEmpresasDeEnvio) in.readObject();
+        //Enviar al cliente
+        oos.writeObject(lp);
+        oos.flush();
+    }
+    
     private void obtenerProductosDeUnaCategoria(ObjectOutputStream oos, Operacion op, final String CATEGORIA)
     throws IOException, ClassNotFoundException 
     {
