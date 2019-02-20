@@ -363,21 +363,20 @@ public class GestorDeDatos {
     {
         System.out.println("Serializando... \n");
         Categoria ca = new CategoriaArchivo("Celulares",
-                //"Archivos/Categorias/Celulares.jpg",
-                "Archivos/Categorias/Celulares.png",
+                "Archivos/Categorias/Celulares.jpg",
                 "png");
         
         Categoria ca2 = new CategoriaArchivo("Informatica",
                 "Archivos/Categorias/Informatica.png",
                 "png");
         
-        Categoria ca3 = new CategoriaArchivo("Deportes", "Archivos/Categorias/Deportes.png", "png");
+        Categoria ca3 = new CategoriaArchivo("Deportes", "Archivos/Categorias/Deportes.jpg", "jpg");
         
-        Categoria ca4 = new CategoriaArchivo("Libros", "Archivos/Categorias/Libros.png", "png");
+        Categoria ca4 = new CategoriaArchivo("Libros", "Archivos/Categorias/Libros.jpg", "jpg");
 
-        Categoria ca5 = new CategoriaArchivo("Televisiones", "Archivos/Categorias/Televisiones.png", "png");
+        Categoria ca5 = new CategoriaArchivo("Televisiones", "Archivos/Categorias/Televisiones.jpg", "jpg");
         
-        Categoria ca6 = new CategoriaArchivo("Videojuegos", "Archivos/Categorias/Videojuegos.png", "png");
+        Categoria ca6 = new CategoriaArchivo("Videojuegos", "Archivos/Categorias/Videojuegos.jpg", "jpg");
         
         ListaCategoria lc = new ListaCategoria();
         lc.add(ca);

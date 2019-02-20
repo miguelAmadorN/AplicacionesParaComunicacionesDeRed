@@ -44,6 +44,7 @@ public class Cliente
 */
             home h = new home(oos,ois);
             h.setVisible(true);
+            
             ListaEmpresasDeEnvio lede = AdministradorDeOperaciones.obtenerEmpresasDeEnvio(oos, ois);
             lede.mostrar();
         }

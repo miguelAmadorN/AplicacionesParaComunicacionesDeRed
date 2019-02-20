@@ -13,6 +13,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.ListCellRenderer;
 
 /**
  *
@@ -45,10 +47,8 @@ public class home extends javax.swing.JFrame {
         combo_categorias.addItem(IdOperaciones.VIDEOJUEGOS);*/           
         ListaCategoria lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
         for(int x = 0 ; x<lc.getSize() ;x++){
-            combo_categorias.addItem(lc.get(x).getNombre());             
-            
-        }
-        
+            combo_categorias.addItem(lc.get(x).getNombre());                                             
+        }        
     }    
 
     private home() {
@@ -70,7 +70,6 @@ public class home extends javax.swing.JFrame {
         lbl_categorias = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         panel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,23 +93,15 @@ public class home extends javax.swing.JFrame {
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Buy_48px.png"))); // NOI18N
 
-        jLabel1.setText("jLabel1");
-
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                .addContainerGap(395, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(149, 149, 149))
+            .addGap(0, 578, Short.MAX_VALUE)
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLayout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addComponent(jLabel1)
-                .addContainerGap(276, Short.MAX_VALUE))
+            .addGap(0, 384, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -224,7 +215,6 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JTextField campo_busqueda;
     private javax.swing.JComboBox<String> combo_categorias;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lbl_categorias;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
