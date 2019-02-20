@@ -5,12 +5,15 @@
  */
 package carritodecompras.productos;
 
+import Correo.CorreoAdjunto;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import pdf.GeneradorPdf;
+import static pdf.GeneradorPdf.RUTA_RECIBOS;
 
 /**
  *
@@ -60,5 +63,10 @@ public class main {
     
      **/
        
+       GeneradorPdf.crearReciboDeCompra("ejemplo.pdf");
+       CorreoAdjunto ca = new CorreoAdjunto("CML.Express.ventas@gmail.com","cmlexpress", RUTA_RECIBOS + "ejemplo.pdf",
+              "Recibo.pdf","mc.sr.rod@gmail.com","Recibo de compra", "Gracias por comprar con nosostros");
+       ca.SendMail();
+   
    }
 }
