@@ -109,7 +109,7 @@ public class AdministradorDeOperaciones {
      * @param oos
      * @param ois
      * @param carrito objeto que lleva la informacion para hacer la compra y que el servidor genere 
-     * el pedf y envie el correo, debe llevar el objeto usuario  o por lo menos el id
+     * el pdf y envie el correo, debe llevar el objeto usuario  o por lo menos el id
      * @return true si la compra se hizo con exito; false si hubo algún error
      * @throws IOException
      * @throws ClassNotFoundException 
@@ -121,7 +121,7 @@ public class AdministradorDeOperaciones {
         oos.flush();
         oos.writeObject(carrito);
         oos.flush();
-        return (boolean) ois.readObject(); 
+        return (boolean) ois.readBoolean(); 
     }
     
     /**

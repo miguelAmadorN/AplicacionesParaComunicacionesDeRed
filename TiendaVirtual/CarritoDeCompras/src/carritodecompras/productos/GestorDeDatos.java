@@ -5,6 +5,7 @@
  */
 package carritodecompras.productos;
 
+import Correo.CorreoAdjunto;
 import carritodecompras.productos.Categoria;
 import carritodecompras.productos.CategoriaSocket;
 import static carritodecompras.productos.ControladorPaqueteria.RUTA_PAQUETERIA;
@@ -17,7 +18,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Calendar;
 import java.util.HashMap;
+import pdf.GeneradorPdf;
+import static pdf.GeneradorPdf.RUTA_RECIBOS;
 
 /**
  *
@@ -34,9 +38,7 @@ public class GestorDeDatos {
      * Agregar las demás rutas que hagan falta para cada categoria 
      */
     
-    private HashMap <String, Usuario> usuarios = new HashMap<String, Usuario>();
-    private HashMap <String, Producto> productos = new HashMap<String, Producto>();
- 
+   
     
     private GestorDeDatos() {
     }
@@ -56,7 +58,8 @@ public class GestorDeDatos {
      * @param op un objeto que encupsula un id para la oprecion solicitada
      * las connstantes se encuentran en la clase IdOperaciones
      */
-    public void ejecutarOperacion(ObjectOutputStream oos, Operacion op) throws IOException, ClassNotFoundException
+    public void ejecutarOperacion(ObjectOutputStream oos, Operacion op, ObjectInputStream ois) 
+            throws IOException, ClassNotFoundException
     {
         switch(op.getOperacion())
         {
@@ -71,6 +74,7 @@ public class GestorDeDatos {
             case IDENTIFICAR_USUARIO:
                 break;
             case COMPRAR:
+                comprar(oos, ois);
                 break;
             case BUSCAR_PRODUCTO:
                 break;
@@ -104,7 +108,37 @@ public class GestorDeDatos {
         }
         
     }
-       
+     
+    private void comprar(ObjectOutputStream oos, ObjectInputStream ois) throws IOException 
+    {
+        try {
+            CarritoCompras cc = (CarritoCompras) ois.readObject();
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.HOUR_OF_DAY, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            String nombre = cc.getUsuario().getNombres() + cc.getUsuario().getPrimerApellido()
+                    + c.getTimeInMillis() + ".pdf";
+
+            GeneradorPdf.crearReciboDeCompra(cc, nombre);
+
+            
+            oos.writeBoolean(true);
+            oos.flush();
+            CorreoAdjunto ca = new CorreoAdjunto("CML.Express.ventas@gmail.com", "cmlexpress", RUTA_RECIBOS + nombre,
+                    "Recibo.pdf", cc.getUsuario().getEmail(), "Recibo de compra", "Gracias por comprar con nosostros");
+            ca.SendMail();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            oos.writeBoolean(false);
+            oos.flush();
+        }
+        
+    }
+    
+    
     private void obntenerEmpresasDeEnvio(ObjectOutputStream oos) throws IOException, ClassNotFoundException
     {
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(RUTA_PAQUETERIA));

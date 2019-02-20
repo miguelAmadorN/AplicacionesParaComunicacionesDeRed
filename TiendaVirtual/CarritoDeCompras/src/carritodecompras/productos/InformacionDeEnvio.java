@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author miguel
  */
-class InformacionDeEnvio implements Serializable{
+public class InformacionDeEnvio implements Serializable{
 
     public String getEmail() {
         return email;

@@ -43,7 +43,7 @@ public class Servidor {
                 ois = new ObjectInputStream(cl.getInputStream());
                
                 Operacion op = (Operacion) ois.readObject();
-                gdd.ejecutarOperacion(oos, op);
+                gdd.ejecutarOperacion(oos, op, ois);
                 
                 /**
                  * El GestorDeDatos es el encargado de recibir la operacion

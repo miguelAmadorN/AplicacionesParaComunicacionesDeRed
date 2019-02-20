@@ -59,7 +59,9 @@ public class EmpresaDeEnvio implements Serializable{
     private double costo;
     private  boolean disponibilidad;
 
-    public EmpresaDeEnvio(int id, String nombre, String tiempoDeEntrega, double costo, boolean disponibilidad) {
+    public EmpresaDeEnvio(int id, String nombre, String tiempoDeEntrega, double costo, 
+            boolean disponibilidad) 
+    {
         this.id = id;
         this.nombre = nombre;
         this.tiempoDeEntrega = tiempoDeEntrega;

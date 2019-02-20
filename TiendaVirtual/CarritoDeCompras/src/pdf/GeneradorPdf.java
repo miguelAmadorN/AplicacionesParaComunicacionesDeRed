@@ -14,7 +14,12 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-
+import carritodecompras.productos.CarritoCompras;
+import carritodecompras.productos.EmpresaDeEnvio;
+import carritodecompras.productos.InformacionDeEnvio;
+import carritodecompras.productos.TarjetaDePago;
+import carritodecompras.productos.Usuario;
+import java.text.DecimalFormat;
 /**
  *
  * @author miguel
@@ -23,9 +28,10 @@ public class GeneradorPdf {
     private static final String LOGO = "src/pdf/LogoCML.png";
     public static final String RUTA_RECIBOS = "Archivos/Pedidos/";
     
-    public static void crearReciboDeCompra(String nombre ) 
+    public static void crearReciboDeCompra(CarritoCompras cc, String nombre) 
     throws IOException 
     {
+        double Total = 0;
         PDDocument document = new PDDocument();
         File imagen = new File(LOGO);
         PDImageXObject pdImage = PDImageXObject.createFromFile(imagen.getAbsolutePath(), document);
@@ -44,7 +50,7 @@ public class GeneradorPdf {
         String text1 = "                                                  CML Express";
         String text2 = "                                      "
                 + "                    Gracias por tu preferencia";
-        String text3 = "   Recibo de Compra";
+        String text3 = "                    Recibo de Compra";
         //Adding text in the form of string
         contentStream.showText(text1);
 
@@ -59,7 +65,92 @@ public class GeneradorPdf {
         contentStream.setNonStrokingColor(Color.BLACK);
         contentStream.newLine();
         contentStream.showText(text3);
-
+        //Usuario
+        Usuario u = cc.getUsuario();
+        contentStream.setLeading(20f);
+        contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+        contentStream.setNonStrokingColor(Color.BLACK);
+        contentStream.newLine();
+        contentStream.showText("Cliente: " + u.getNombres() + " " + u.getPrimerApellido() 
+                                + " " + u.getSegundoApellido());
+        contentStream.newLine();
+        contentStream.showText("Telefono: "+ u.getTelefono());
+        
+        if(cc.getUsuario().getEmpresaDeEnvio() != null)
+        {
+            EmpresaDeEnvio ee = cc.getUsuario().getEmpresaDeEnvio();
+            contentStream.setLeading(30f);
+            contentStream.setFont(PDType1Font.TIMES_BOLD, 15);
+            contentStream.newLine();
+            contentStream.showText("INFORMACIÓN DE ENVÍO");
+            contentStream.setLeading(15f);
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+            contentStream.newLine();
+            contentStream.showText("Paqueteria: " + ee.getNombre());
+            contentStream.newLine();
+            contentStream.showText("Tiempo aproximado de entrega: " + ee.getTiempoDeEntrega());
+            contentStream.newLine();
+            contentStream.showText("Costo de envio: $" + ee.getCosto());
+            
+            Total += ee.getCosto();
+        }
+        if(cc.getUsuario().getInformacionDeEnvio() != null)
+        {
+            InformacionDeEnvio ie = cc.getUsuario().getInformacionDeEnvio();
+            contentStream.setLeading(30f);
+            contentStream.setFont(PDType1Font.TIMES_BOLD, 15);
+            contentStream.newLine();
+            contentStream.showText("DIRECCIÓN DE ENVÍO");
+            contentStream.setLeading(15f);
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+            contentStream.newLine();
+            contentStream.showText("Dirección: " + ie.getDireccion());
+             contentStream.newLine();
+            contentStream.showText("Email: " + ie.getEmail());
+             contentStream.newLine();
+            contentStream.showText("Recibe: " + ie.getNombreYApellidos());
+             contentStream.newLine();
+            contentStream.showText("País: " + ie.getPais());
+             contentStream.newLine();
+            contentStream.showText("Telefono: " + ie.getTelefono());         
+        }
+        
+        int cantidad = cc.getProductoCompra().length;
+        contentStream.setLeading(30f);
+        contentStream.setFont(PDType1Font.TIMES_BOLD, 15);
+        contentStream.newLine();
+        contentStream.showText("PRODUCTOS");    
+        contentStream.setLeading(15f);
+        double subtotal = 0;
+        for(int i = 0; i < cantidad; i++)
+        {
+            subtotal = cc.getProductoCompra()[i].getCantidad() * 
+                       cc.getProductoCompra()[i].getProducto().getPrecio();
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+            contentStream.newLine();
+            contentStream.showText(cc.getProductoCompra()[i].getProducto().getNombre() + "     unidades: " 
+                                    + cc.getProductoCompra()[i].getCantidad() + "  $" + subtotal);
+            Total += subtotal;
+            
+        }
+        contentStream.newLine();
+        contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
+        contentStream.showText("                                                     Total: $" + Total);
+        if(cc.getUsuario().getTarjetaDePago() != null)
+        {
+            TarjetaDePago tp = cc.getUsuario().getTarjetaDePago();
+             contentStream.setLeading(25f);
+            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+            contentStream.newLine();
+            contentStream.showText("El cobro fue realizado a la tarjeta: " + tp.getNumeroDeTajeta());
+        }
+        contentStream.setLeading(30f);
+        contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+        contentStream.newLine();
+        contentStream.showText("                                                         "
+                               + "Dudas y/o acalaraciones al 01-800- CLMVENTAS");
+        
+        
         //Ending the content stream
         contentStream.endText();
         contentStream.close();

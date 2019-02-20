@@ -67,7 +67,9 @@ public class TarjetaDePago implements Serializable{
     private short FechaCaducidadMM;
     private short FechaCaducidadYY;
 
-    public TarjetaDePago(String NumeroDeTajeta, String CodigoDeSeguridad, String NombreTitular, String ApellidosTitular, short FechaCaducidadMM, short FechaCaducidadYY) {
+    public TarjetaDePago(String NumeroDeTajeta, String CodigoDeSeguridad, String NombreTitular, 
+            String ApellidosTitular, short FechaCaducidadMM, short FechaCaducidadYY) 
+    {
         this.NumeroDeTajeta = NumeroDeTajeta;
         this.CodigoDeSeguridad = CodigoDeSeguridad;
         this.NombreTitular = NombreTitular;
