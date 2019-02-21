@@ -8,6 +8,7 @@ package carritodecompras.servidor;
 import carritodecompras.productos.DialogoPaqueteria;
 import ImagenesInterfaz.PanelFondo;
 import ImagenesInterfaz.UIFunctions;
+import carritodecompras.productos.DialogoCategoria;
 import carritodecompras.productos.GestorDeDatos;
 import carritodecompras.productos.Operacion;
 import com.sun.awt.AWTUtilities;
@@ -65,7 +66,7 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
         jButton1 = new javax.swing.JButton();
         Close = new javax.swing.JButton();
         Minimize = new javax.swing.JButton();
-        usuarios = new javax.swing.JButton();
+        Categoria = new javax.swing.JButton();
         Productos = new javax.swing.JButton();
         Paqueterias = new javax.swing.JButton();
 
@@ -78,11 +79,11 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
 
         Minimize.setText("_");
 
-        usuarios.setBackground(new java.awt.Color(30, 138, 254));
-        usuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesInterfaz/usuarios.png"))); // NOI18N
-        usuarios.addActionListener(new java.awt.event.ActionListener() {
+        Categoria.setBackground(new java.awt.Color(30, 138, 254));
+        Categoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesInterfaz/categoria.png"))); // NOI18N
+        Categoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usuariosActionPerformed(evt);
+                CategoriaActionPerformed(evt);
             }
         });
 
@@ -98,37 +99,40 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(usuarios)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
-                .addComponent(Productos)
-                .addGap(59, 59, 59))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(172, Short.MAX_VALUE)
+                .addComponent(Paqueterias)
+                .addGap(142, 142, 142))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Close)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Minimize)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Paqueterias)
-                .addGap(142, 142, 142))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Productos)
+                        .addGap(46, 46, 46))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Minimize)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Close)
+                    .addComponent(Minimize))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Close)
-                        .addComponent(Minimize))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Productos)
-                            .addComponent(usuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addGap(36, 36, 36)
+                        .addComponent(Productos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addComponent(Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addComponent(Paqueterias)
                 .addGap(33, 33, 33))
         );
@@ -136,9 +140,9 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariosActionPerformed
+    private void CategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoriaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usuariosActionPerformed
+    }//GEN-LAST:event_CategoriaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,6 +245,26 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
                 });
             dialog.setVisible(true);
         }
+        
+        else if(ae.getSource().equals(this.Categoria)){
+            System.out.println("\nSeleccionaste Categorias\n");
+            DialogoCategoria dialog = null;
+            try {
+                dialog = new DialogoCategoria(new javax.swing.JFrame(), true);
+            } catch (IOException ex) {
+                Logger.getLogger(OpcionesServidor.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(OpcionesServidor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        
+                    }
+                });
+            dialog.setVisible(true);
+        }
         /**
          * Agrega tus else if del boton productos  y sus JDialog
          */
@@ -251,7 +275,7 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
         this.Close.addActionListener(this);
         this.Minimize.addActionListener(this);
         this.Paqueterias.addActionListener(this);
-        this.usuarios.addActionListener(this);
+        this.Categoria.addActionListener(this);
         this.Productos.addActionListener(this);
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -277,11 +301,11 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
         this.setLocation(this.getLocation().x+evt.getX()-x, this.getLocation().y+evt.getY()-y);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Categoria;
     private javax.swing.JButton Close;
     private javax.swing.JButton Minimize;
     private javax.swing.JButton Paqueterias;
     private javax.swing.JButton Productos;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton usuarios;
     // End of variables declaration//GEN-END:variables
 }

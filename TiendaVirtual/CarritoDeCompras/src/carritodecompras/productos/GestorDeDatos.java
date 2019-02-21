@@ -29,7 +29,7 @@ import static pdf.GeneradorPdf.RUTA_RECIBOS;
  */
 public class GestorDeDatos {
     
-    private final String CELULARES = "Archivos/Productos/Categorias/Telefonia/Telefonia.out";
+    private final String TELEFONIA = "Archivos/Productos/Categorias/Telefonia/Telefonia.out";
     private final String DEPORTES = "Archivos/Productos/Categorias/Deportes/Deportes.out";
     private final String INFORMATICA = "Archivos/Productos/Categorias/Informatica/Informatica.out";
     private final String TELEVISORES = "Archivos/Productos/Categorias/Televisores/Televisores.out";
@@ -321,7 +321,7 @@ public class GestorDeDatos {
 
                 break;
                 
-            case CELULARES:
+            case TELEFONIA:
                 
                 lp.add(pt1);
                 lp.add(pt2);

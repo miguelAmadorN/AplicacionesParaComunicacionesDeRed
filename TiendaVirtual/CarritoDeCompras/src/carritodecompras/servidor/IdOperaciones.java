@@ -22,7 +22,7 @@ public class IdOperaciones {
     
     public final static String TELEFONIA                   = "telefonia";
     public final static String INFORMATICA                 = "informatica";
-    public final static String DEPORTES                    = "celulares";
+    public final static String DEPORTES                    = "deportes";
     public final static String LIBROS                      = "libros";
     public final static String TELEVISORES                 = "televisores";
     public final static String VIDEOJUEGOS                 = "videojuegos";
