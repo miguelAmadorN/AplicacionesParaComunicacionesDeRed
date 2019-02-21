@@ -17,6 +17,7 @@ public class IdOperaciones {
     public final static int COMPRAR                        = 5;
     public final static int BUSCAR_PRODUCTO                = 6;
     public final static int OBTENER_EMPRESAS_DE_ENVIO      = 7;
+    public final static int TERMINAR_CONEXION              = 8;
     
     
     public final static String TELEFONIA                   = "telefonia";

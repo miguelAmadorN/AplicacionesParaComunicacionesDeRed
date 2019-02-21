@@ -28,12 +28,13 @@ import static pdf.GeneradorPdf.RUTA_RECIBOS;
  * @author miguel
  */
 public class GestorDeDatos {
-    private final String RUTA_CELULARES = "Archivos/Productos/Categorias/Telefonia/Telefonia.out";
-    private final String RUTA_DEPORTES = "Archivos/Productos/Categorias/Deportes/Deportes.out";
-    private final String RUTA_INFORMATICA = "Archivos/Productos/Categorias/Informatica/Informatica.out";
-    private final String RUTA_TELEVISORES = "Archivos/Productos/Categorias/Televisores/Televisores.out";
-    private final String RUTA_VIDEOJUEGOS = "Archivos/Productos/Categorias/Videojuegos/Videojuegos.out";
-    private final String RUTA_LIBROS = "Archivos/Productos/Categorias/Libros/Libros.out";
+    
+    private final String CELULARES = "Archivos/Productos/Categorias/Telefonia/Telefonia.out";
+    private final String DEPORTES = "Archivos/Productos/Categorias/Deportes/Deportes.out";
+    private final String INFORMATICA = "Archivos/Productos/Categorias/Informatica/Informatica.out";
+    private final String TELEVISORES = "Archivos/Productos/Categorias/Televisores/Televisores.out";
+    private final String VIDEOJUEGOS = "Archivos/Productos/Categorias/Videojuegos/Videojuegos.out";
+    private final String LIBROS = "Archivos/Productos/Categorias/Libros/Libros.out";
     /**
      * Agregar las demás rutas que hagan falta para cada categoria 
      */
@@ -58,57 +59,37 @@ public class GestorDeDatos {
      * @param op un objeto que encupsula un id para la oprecion solicitada
      * las connstantes se encuentran en la clase IdOperaciones
      */
-    public void ejecutarOperacion(ObjectOutputStream oos, Operacion op, ObjectInputStream ois) 
+    public boolean ejecutarOperacion(ObjectOutputStream oos, Operacion op, ObjectInputStream ois) 
             throws IOException, ClassNotFoundException
     {
         switch(op.getOperacion())
         {
             case OBTENER_CATEGORIAS:
                 obtenerCategorias(oos, op);
-                break;
+                return true;
             case OBTENER_PRODUCTOS_CATEGORIA:
-                obtenerProductosDeUnaCategoria(oos, op, op.getParametros());
-                break;
+                obtenerProductosDeUnaCategoria(oos, op.getParametros());
+                return true;
             case REGISTAR_USUARIO:
-                break;
+                return true;
             case IDENTIFICAR_USUARIO:
-                break;
+                return true;
             case COMPRAR:
                 comprar(oos, ois);
-                break;
+                return true;
             case BUSCAR_PRODUCTO:
-                break;
+                return true;
             case OBTENER_EMPRESAS_DE_ENVIO:
-                obntenerEmpresasDeEnvio(oos);
-                break;
+                obtenerEmpresasDeEnvio(oos);
+                return true;
+            case TERMINAR_CONEXION:
+                return false;
                 
             default:
-                break;
+                return true;
         }
     }
-    
-    private String obtenerRutaDeCategoria(final String CATEGORIA)
-    {
-        switch(CATEGORIA)
-        {
-            case TELEFONIA:
-                return RUTA_CELULARES;
-            case DEPORTES:
-                return RUTA_DEPORTES;
-            case INFORMATICA:
-                return RUTA_INFORMATICA;
-            case TELEVISORES:
-                return RUTA_TELEVISORES;
-            case VIDEOJUEGOS:
-                return RUTA_VIDEOJUEGOS;
-            case LIBROS:
-                return RUTA_LIBROS;
-            default:
-                return null;
-        }
         
-    }
-     
     private void comprar(ObjectOutputStream oos, ObjectInputStream ois) throws IOException 
     {
         try {
@@ -139,7 +120,7 @@ public class GestorDeDatos {
     }
     
     
-    private void obntenerEmpresasDeEnvio(ObjectOutputStream oos) throws IOException, ClassNotFoundException
+    private void obtenerEmpresasDeEnvio(ObjectOutputStream oos) throws IOException, ClassNotFoundException
     {
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(RUTA_PAQUETERIA));
         ListaEmpresasDeEnvio lp = (ListaEmpresasDeEnvio) in.readObject();
@@ -148,7 +129,7 @@ public class GestorDeDatos {
         oos.flush();
     }
     
-    private void obtenerProductosDeUnaCategoria(ObjectOutputStream oos, Operacion op, final String CATEGORIA)
+    private void obtenerProductosDeUnaCategoria(ObjectOutputStream oos, final String RUTA_CATEGORIA)
     throws IOException, ClassNotFoundException 
     {
          System.out.println("Serializando... \n");
@@ -308,8 +289,8 @@ public class GestorDeDatos {
                 "Videojuegos",new String[]{"Videojuegos","Madden NFL"});
         
         ListaProductos lp = new ListaProductos();
-        
-        switch(CATEGORIA){
+        System.out.print(RUTA_CATEGORIA);
+        switch(RUTA_CATEGORIA){
             case DEPORTES:
                 
                 lp.add(pd1);
@@ -340,7 +321,7 @@ public class GestorDeDatos {
 
                 break;
                 
-            case TELEFONIA:
+            case CELULARES:
                 
                 lp.add(pt1);
                 lp.add(pt2);
@@ -375,7 +356,7 @@ public class GestorDeDatos {
         
         
         ObjectOutputStream o = new ObjectOutputStream(
-                new FileOutputStream(obtenerRutaDeCategoria(CATEGORIA)));
+                new FileOutputStream(RUTA_CATEGORIA));
         o.writeObject(lp);
         o.close();
         /**
@@ -383,7 +364,7 @@ public class GestorDeDatos {
          * La carpeta donde está almacenada la informacion es archivos
          */
         System.out.println("\nRecuperando objeto...\n");
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(obtenerRutaDeCategoria(CATEGORIA)));
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(RUTA_CATEGORIA));
         lp = (ListaProductos) in.readObject();
         //Enviar al cliente
         oos.writeObject(lp);
@@ -398,19 +379,28 @@ public class GestorDeDatos {
         System.out.println("Serializando... \n");
         Categoria ca = new CategoriaArchivo("Celulares",
                 "Archivos/Categorias/Celulares.jpg",
-                "jpg");
+                "jpg",
+                 "Archivos/Productos/Categorias/Telefonia/Telefonia.out"
+        );
         
         Categoria ca2 = new CategoriaArchivo("Informatica",
                 "Archivos/Categorias/Informatica.png",
-                "png");
+                "png",
+                "Archivos/Productos/Categorias/Informatica/Informatica.out"
+        );
         
-        Categoria ca3 = new CategoriaArchivo("Deportes", "Archivos/Categorias/Deportes.jpg", "jpg");
+        Categoria ca3 = new CategoriaArchivo("Deportes", "Archivos/Categorias/Deportes.jpg", "jpg",
+        "Archivos/Productos/Categorias/Deportes/Deportes.out");
         
-        Categoria ca4 = new CategoriaArchivo("Libros", "Archivos/Categorias/Libros.jpg", "jpg");
+        Categoria ca4 = new CategoriaArchivo("Libros", "Archivos/Categorias/Libros.jpg", "jpg",
+        "Archivos/Productos/Categorias/Libros/Libros.out"
+        );
 
-        Categoria ca5 = new CategoriaArchivo("Televisiones", "Archivos/Categorias/Televisiones.jpg", "jpg");
+        Categoria ca5 = new CategoriaArchivo("Televisiones", "Archivos/Categorias/Televisiones.jpg", "jpg",
+        "Archivos/Productos/Categorias/Televisores/Televisores.out");
         
-        Categoria ca6 = new CategoriaArchivo("Videojuegos", "Archivos/Categorias/Videojuegos.jpg", "jpg");
+        Categoria ca6 = new CategoriaArchivo("Videojuegos", "Archivos/Categorias/Videojuegos.jpg", "jpg",
+         "Archivos/Productos/Categorias/Videojuegos/Videojuegos.out");
         
         ListaCategoria lc = new ListaCategoria();
         lc.add(ca);

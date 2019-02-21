@@ -143,7 +143,12 @@ public class AdministradorDeOperaciones {
         return (ListaProductos) ois.readObject(); 
     }
     
-    
+    public static void finalizarConexion(ObjectOutputStream oos, ObjectInputStream ois) throws IOException
+    {
+        oos.writeObject(new Operacion(TERMINAR_CONEXION, null));
+        oos.flush();
+    }
+            
     
     
     

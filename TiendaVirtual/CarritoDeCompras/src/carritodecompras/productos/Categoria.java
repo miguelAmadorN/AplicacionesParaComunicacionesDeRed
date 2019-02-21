@@ -17,6 +17,14 @@ import javax.swing.JLabel;
  */
 public class Categoria{
 
+    public String getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
+    }
+
     public String getExtension() {
         return extension;
     }
@@ -49,10 +57,11 @@ public class Categoria{
         this.imagenEnBuffer = imagenEnBuffer;
     }
     
-    protected String nombre;//Nombre de la categoria
-    protected String imagen;//Nombre de la imagen
-    protected String extension;
-    protected BufferedImage imagenEnBuffer;
+    String nombre;//Nombre de la categoria
+    String imagen;//Nombre de la imagen
+    String extension;
+    String ruta;
+    BufferedImage imagenEnBuffer;
 
     
     

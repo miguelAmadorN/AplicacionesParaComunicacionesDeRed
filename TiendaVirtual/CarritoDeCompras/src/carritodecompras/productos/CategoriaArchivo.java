@@ -18,11 +18,14 @@ import javax.imageio.ImageIO;
  */
 public class CategoriaArchivo extends Categoria implements Externalizable{
     
-    public CategoriaArchivo(String nombre, String imagen, String extension) throws IOException {
+    public CategoriaArchivo(String nombre, String imagen, String extension, String ruta) 
+            throws IOException 
+    {
         super();
         this.nombre = nombre;
         this.imagen = imagen;
         this.extension = extension;
+        this.ruta = ruta;
     }
 
     public CategoriaArchivo(){}
@@ -32,6 +35,7 @@ public class CategoriaArchivo extends Categoria implements Externalizable{
         oo.writeObject(getNombre());
         oo.writeObject(getImagen());
         oo.writeObject(getExtension());
+        oo.writeObject(getRuta());
     }
 
     @Override
@@ -39,6 +43,7 @@ public class CategoriaArchivo extends Categoria implements Externalizable{
         setNombre((String) oi.readObject());
         setImagen((String) oi.readObject());
         setExtension((String) oi.readObject());
+        setRuta((String)oi.readObject());
         setImagenEnBuffer(ImageIO.read(new File(getImagen())));
     }
 }

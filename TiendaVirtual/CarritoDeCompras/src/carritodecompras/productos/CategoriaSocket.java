@@ -34,6 +34,7 @@ public class CategoriaSocket extends Categoria implements Externalizable {
     public void writeExternal(ObjectOutput oo) throws IOException {
         oo.writeObject(getNombre());
         oo.writeObject(getExtension());
+        oo.writeObject(getRuta());
         ImageIO.write(this.getImagenEnBuffer(), this.getExtension(), (OutputStream) oo);
     }
 
@@ -41,6 +42,7 @@ public class CategoriaSocket extends Categoria implements Externalizable {
     public void readExternal(ObjectInput oi) throws IOException, ClassNotFoundException {
         setNombre((String) oi.readObject());
         setExtension((String) oi.readObject());
+        setRuta((String)oi.readObject());
         setImagenEnBuffer(ImageIO.read((InputStream) oi));
     }
     

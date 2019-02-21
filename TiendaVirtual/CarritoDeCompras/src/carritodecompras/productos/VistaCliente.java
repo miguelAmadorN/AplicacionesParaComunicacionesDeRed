@@ -8,10 +8,16 @@ package carritodecompras.productos;
 import ImagenesInterfaz.PanelFondo;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,10 +29,25 @@ public class VistaCliente extends javax.swing.JFrame {
      * Creates new form VistaCliente
      */
    
-    public VistaCliente() {
+    public VistaCliente(ObjectOutputStream oos, ObjectInputStream  ois) 
+            throws IOException, ClassNotFoundException 
+    {
        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+ 
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                try {
+                    close(oos, ois);
+                } catch (IOException ex) {
+                    Logger.getLogger(VistaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                    
+                }
+            }
+        });
         initComponents();
-        init();
+        init(oos, ois);
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setResizable(false);//no permite que sea redimincionable
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass()
@@ -35,12 +56,29 @@ public class VistaCliente extends javax.swing.JFrame {
         this.setTitle("CML EXPRESS"); 
       
     }
-    
-    public void init()
+     private void close(ObjectOutputStream oos, ObjectInputStream  ois) throws IOException{
+        if (JOptionPane.showConfirmDialog(rootPane, "¿Deseas salir del sistema?",
+                "Salir del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+        {
+            AdministradorDeOperaciones.finalizarConexion(oos, ois);
+            System.exit(0);
+        }else
+        {
+            
+        }
+    } 
+    public void init(ObjectOutputStream oos, ObjectInputStream  ois) 
+            throws IOException, ClassNotFoundException
     {
         ImageIcon iconoOriginal = new ImageIcon("src/pdf/LogoCML.png");
         ImageIcon iconoEscala = new ImageIcon(iconoOriginal.getImage().getScaledInstance(JLCML.getWidth(), JLCML.getHeight(), java.awt.Image.SCALE_DEFAULT));
         JLCML.setIcon(iconoEscala);
+        ListaCategoria lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
+        ImageIcon img = new ImageIcon(lc.get(0).getImagenEnBuffer());
+        this.Categoria1.setIcon(new ImageIcon(img.getImage().getScaledInstance(Categoria1.getWidth(), Categoria1.getHeight(), java.awt.Image.SCALE_DEFAULT)));
+        System.out.print(lc.get(0).getRuta());
+        ListaProductos lp =AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois,  lc.get(0).getRuta());
+        lp.mostrar();
     }
     
     
@@ -101,7 +139,12 @@ public class VistaCliente extends javax.swing.JFrame {
         DescripcionP7 = new javax.swing.JLabel();
         DescripcionP8 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -156,18 +199,16 @@ public class VistaCliente extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(JLCML, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(Categoria4, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                             .addComponent(Categoria3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Categoria2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(Categoria1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Categoria5, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)))
+                    .addComponent(Categoria5, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -408,7 +449,7 @@ public class VistaCliente extends javax.swing.JFrame {
                                             .addComponent(Agregar)))
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(AgregarAlaCesta)
                                     .addComponent(ComprarProducto))
                                 .addGap(18, 18, 18)
@@ -440,6 +481,11 @@ public class VistaCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Producto7ActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -468,11 +514,13 @@ public class VistaCliente extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        /*
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaCliente().setVisible(true);
+                
             }
         });
+        */
         
         
         ObjectOutputStream oos = null;
@@ -494,8 +542,9 @@ public class VistaCliente extends javax.swing.JFrame {
              * e implemnetar la logica para la interfaz gráfica del usuario
              */
             
-            
-            ListaCategoria lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
+            new VistaCliente( oos,  ois ).setVisible(true);
+            //ListaCategoria lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
+       
             
             
             
@@ -505,6 +554,7 @@ public class VistaCliente extends javax.swing.JFrame {
             e.printStackTrace();
             System.err.print(e);
         }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
