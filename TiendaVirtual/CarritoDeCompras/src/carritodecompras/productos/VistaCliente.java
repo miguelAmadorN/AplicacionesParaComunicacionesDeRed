@@ -5,6 +5,7 @@
  */
 package carritodecompras.productos;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -49,9 +50,9 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
     private ListaProductos lp;
     private ListaCategoria lc;
     private ArrayList productosCesta;
-    private JRadioButton radio[];
+    private ArrayList radio;
             
-    
+    //No es una lista Jradiobutton problemas al eliminar
     
     public VistaCliente(ObjectOutputStream oos, ObjectInputStream  ois) 
             throws IOException, ClassNotFoundException 
@@ -76,12 +77,12 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         initComponents();
         init();
         this.setExtendedState(MAXIMIZED_BOTH);
+        this.getContentPane().setBackground(Color.WHITE);
         this.setResizable(false);//no permite que sea redimincionable
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass()
                         .getResource("/ImagenesInterfaz/Icono.png"));
         setIconImage(icon);
         this.setTitle("CML EXPRESS"); 
-      
     }
     
     private void close(ObjectOutputStream oos, ObjectInputStream  ois) throws IOException{
@@ -147,6 +148,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         
         AgregarAlaCesta.addActionListener(this);
         EliminarCesta.addActionListener(this);
+        ComprarTodo.addActionListener(this);
         
         lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois,  lc.get(0).getRuta());
         
@@ -156,6 +158,10 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             setProductoPrincipal(lp.get(0));
         
         productosCesta = new ArrayList();
+        radio = new ArrayList();
+        
+        jScrollPane2.getParent().setBackground(Color.WHITE);
+        
      
     }
     private void setCategorias(ListaCategoria lc, int botonInicial, int botonFinal)
@@ -268,7 +274,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             }
             
             Nombre.setText(producto.getNombre());
-            Descripcion.setText("Descripción: " + producto.getDescripcion());
+            Descripcion.setText(formatoDescripcion("Descripción: " + producto.getDescripcion(), 40));
             Precio.setText("Precio: $" + producto.getPrecio());
             Existencias.setText("Existencias: " + producto.getExistencias());
             productoPrincipal = producto;
@@ -281,19 +287,26 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
     private void mostrarCesta()
     {
         JPanel panel = new JPanel(new GridLayout(0, 2));
-        ProductoCompra pc;
-        radio = new JRadioButton[productosCesta.size()];
-        JLabel jl;
+        panel.setBackground(Color.WHITE);
+        ProductoCompra pc; 
+        radio.add(new JRadioButton());
+        JLabel jl;JRadioButton jrb;
         ImageIcon ii;
             for (int i = 0; i < productosCesta.size(); i++) 
             {
-                radio[i] = new JRadioButton();
-                pc = (ProductoCompra) productosCesta.get(i);
-                radio[i].setText("<html><body>"+ pc.getProducto().getNombre() +" X" + pc.getCantidad() + "<br>" 
-                                    + pc.getProducto().getDescripcion()+ "<br>" +
-                                    "c.u: " + pc.getProducto().getPrecio() +"</body></html>");
                 
-                panel.add(radio[i]);
+                pc = (ProductoCompra) productosCesta.get(i);
+                /*
+                radio[i].setText("<html><body>"+ recortarCadena(pc.getProducto().getNombre()) 
+                                    +" X" + pc.getCantidad() + "<br>" 
+                                    + pc.getProducto().getDescripcion()+ "<br>" 
+                                    + "c.u: " + pc.getProducto().getPrecio() +"</body></html>");
+                */
+                jrb = (JRadioButton)radio.get(i);
+                jrb.setText(formatoDescripcion(pc.getProducto().getNombre() + " " +
+                                                    " X" + pc.getCantidad() +"; "+ pc.getProducto().getDescripcion() +
+                                                    "; " + "c.u: $" + pc.getProducto().getPrecio(), 20));
+                panel.add(jrb);
                 jl = new JLabel();
                 jl.setSize(50, 50);
                 ii = new ImageIcon(pc.getProducto().getImagenesEnBuffer()[0]);
@@ -302,15 +315,20 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 panel.add(jl);
             }
             jScrollPane2.setViewportView(panel);
+         
     }
     
     private void eliminarDeLaCesta()
     {
-        for(int i = 0; i < radio.length; i++)
+        JRadioButton jrb;
+        for(int i = 0; i < productosCesta.size() ; i++)
         {
-            if(radio[i].isSelected())
+            jrb = (JRadioButton) radio.get(i);
+            if(jrb.isSelected())
             {
                 productosCesta.remove(i);
+                radio.remove(i);
+                i--;
             }
         }
     }
@@ -321,6 +339,34 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         {
             return cadena.substring(0, 15) + "...";
         }
+        return cadena;
+    }
+    
+    private String formatoDescripcion(String descripcion, int tope)
+    {
+        int aux = 0;
+        String cadena = "<html><body>___________________<br>";
+        
+        for(int i = 0; i < descripcion.length(); i++)
+        {
+            if(descripcion.charAt(i) == ' ' || i == tope)
+            {
+                if(i < tope)
+                {
+                    aux = i;
+                }
+                else
+                {
+                    if(i == tope && aux == 0)
+                        aux = tope;
+                    cadena += descripcion.substring(0, aux) + "<br>";
+                    descripcion = descripcion.substring(aux, descripcion.length() );
+                    i = 0;
+                }
+            }
+        }
+        cadena += descripcion + "<br>____________________";
+        cadena += "</body></html>"; 
         return cadena;
     }
     /**
@@ -381,11 +427,14 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         Imagen3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setBackground(new java.awt.Color(254, 254, 254));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
         });
+
+        jPanel3.setBackground(new java.awt.Color(254, 254, 254));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -399,6 +448,8 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         );
 
         jScrollPane2.setViewportView(jPanel3);
+
+        jPanel1.setBackground(new java.awt.Color(254, 254, 254));
 
         ComprarTodo.setText("Comprar");
 
@@ -422,6 +473,8 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                     .addComponent(NombreCategoria)))
         );
 
+        ImagenProductoPrincipal.setBackground(new java.awt.Color(254, 254, 254));
+
         AgregarAlaCesta.setText("Añadir a la cesta");
 
         Precio.setText("Precio: ");
@@ -431,6 +484,8 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         Nombre.setText("Nombre:");
 
         Existencias.setText("Existencias:");
+
+        jPanel2.setBackground(new java.awt.Color(254, 254, 254));
 
         SiguientesCategorias.setText(">>");
 
@@ -486,6 +541,8 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         Quitar.setText("-");
 
         Agregar.setText("+");
+
+        jPanel4.setBackground(new java.awt.Color(254, 254, 254));
 
         Producto1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -918,6 +975,11 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         {
             eliminarDeLaCesta();
             mostrarCesta();
+        }
+        
+        if(ae.getSource().equals(ComprarTodo))
+        {
+            
         }
  
         int i = 0;
