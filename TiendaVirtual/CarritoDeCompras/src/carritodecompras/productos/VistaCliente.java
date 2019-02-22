@@ -5,13 +5,11 @@
  */
 package carritodecompras.productos;
 
-import ImagenesInterfaz.PanelFondo;
+import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.List;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,11 +17,12 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 /**
  *
@@ -34,20 +33,23 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
     /**
      * Creates new form VistaCliente
      */
+    
+    private static final int NUMCATEGORIAS = 5;
+    private static final int NUMPRODUCTOS = 8;
+    
     private JButton categorias[];
     private JButton productos[];
     private JLabel nombreProductos[];
-    private static final int NUMCATEGORIAS = 5;
-    private static final int NUMPRODUCTOS = 8;
     private Producto productoPrincipal;
     private int cantidadDeProductos;
     private Producto producto[];
     private Categoria categoria[];
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-    ListaProductos lp;
-    ListaCategoria lc;
-    ArrayList productosCesta;
+    private ListaProductos lp;
+    private ListaCategoria lc;
+    private ArrayList productosCesta;
+    private JRadioButton radio[];
             
     
     
@@ -144,6 +146,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         Quitar.addActionListener(this);
         
         AgregarAlaCesta.addActionListener(this);
+        EliminarCesta.addActionListener(this);
         
         lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois,  lc.get(0).getRuta());
         
@@ -270,9 +273,48 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             Existencias.setText("Existencias: " + producto.getExistencias());
             productoPrincipal = producto;
             cantidadDeProductos = 1;
+            Cantidad.setText(String.valueOf(cantidadDeProductos));
+            
         }
     }
 
+    private void mostrarCesta()
+    {
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+        ProductoCompra pc;
+        radio = new JRadioButton[productosCesta.size()];
+        JLabel jl;
+        ImageIcon ii;
+            for (int i = 0; i < productosCesta.size(); i++) 
+            {
+                radio[i] = new JRadioButton();
+                pc = (ProductoCompra) productosCesta.get(i);
+                radio[i].setText("<html><body>"+ pc.getProducto().getNombre() +" X" + pc.getCantidad() + "<br>" 
+                                    + pc.getProducto().getDescripcion()+ "<br>" +
+                                    "c.u: " + pc.getProducto().getPrecio() +"</body></html>");
+                
+                panel.add(radio[i]);
+                jl = new JLabel();
+                jl.setSize(50, 50);
+                ii = new ImageIcon(pc.getProducto().getImagenesEnBuffer()[0]);
+                jl.setIcon(new ImageIcon(ii.getImage().getScaledInstance(jl.getWidth(),jl.getHeight(), 
+                                                                       java.awt.Image.SCALE_DEFAULT)));
+                panel.add(jl);
+            }
+            jScrollPane2.setViewportView(panel);
+    }
+    
+    private void eliminarDeLaCesta()
+    {
+        for(int i = 0; i < radio.length; i++)
+        {
+            if(radio[i].isSelected())
+            {
+                productosCesta.remove(i);
+            }
+        }
+    }
+    
     private String recortarCadena(String cadena)
     {
         if(cadena.length() > 15)
@@ -866,6 +908,18 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             }
         }
         
+        if (ae.getSource().equals(AgregarAlaCesta)) 
+        {
+            productosCesta.add(new ProductoCompra(productoPrincipal, cantidadDeProductos));
+            mostrarCesta();
+        }
+        
+        if (ae.getSource().equals(EliminarCesta)) 
+        {
+            eliminarDeLaCesta();
+            mostrarCesta();
+        }
+ 
         int i = 0;
         for(i = 0; i < NUMPRODUCTOS; i++)
         {
