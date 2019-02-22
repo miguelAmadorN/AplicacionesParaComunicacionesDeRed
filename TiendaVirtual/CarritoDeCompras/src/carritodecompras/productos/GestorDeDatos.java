@@ -377,7 +377,7 @@ public class GestorDeDatos {
             throws IOException, ClassNotFoundException 
     {
         System.out.println("Serializando... \n");
-        Categoria ca = new CategoriaArchivo("Celulares",
+        Categoria ca = new CategoriaArchivo("Telefonia",
                 "Archivos/Categorias/Celulares.jpg",
                 "jpg",
                  "Archivos/Productos/Categorias/Telefonia/Telefonia.out"
@@ -396,7 +396,7 @@ public class GestorDeDatos {
         "Archivos/Productos/Categorias/Libros/Libros.out"
         );
 
-        Categoria ca5 = new CategoriaArchivo("Televisiones", "Archivos/Categorias/Televisiones.jpg", "jpg",
+        Categoria ca5 = new CategoriaArchivo("Televisores", "Archivos/Categorias/Televisiones.jpg", "jpg",
         "Archivos/Productos/Categorias/Televisores/Televisores.out");
         
         Categoria ca6 = new CategoriaArchivo("Videojuegos", "Archivos/Categorias/Videojuegos.jpg", "jpg",
