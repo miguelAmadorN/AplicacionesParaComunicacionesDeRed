@@ -181,20 +181,21 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
             ServerSocket s = new ServerSocket(9999);
             System.out.print("Servidor iniciado...\n");
             GestorDeDatos gdd = GestorDeDatos.getInstance();
-            boolean seguir;
+            
             for (;;) {
                 Socket cl = s.accept();
                 System.out.print("Cliente conectado desde "
                         + cl.getInetAddress() + ":" + cl.getPort() + "\n");
                 oos = new ObjectOutputStream(cl.getOutputStream());
                 ois = new ObjectInputStream(cl.getInputStream());
-                
-                do
+                boolean seguir = true;
+                while(seguir)
                 {
                     Operacion op = (Operacion) ois.readObject();
                     seguir = gdd.ejecutarOperacion(oos, op, ois);
+                }
                     
-                }while(seguir);
+                
                 
                 /**
                  * El GestorDeDatos es el encargado de recibir la operacion

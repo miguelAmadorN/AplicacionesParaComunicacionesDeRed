@@ -7,28 +7,50 @@ package carritodecompras.productos;
 
 import ImagenesInterfaz.PanelFondo;
 import java.awt.Image;
+import java.awt.List;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author miguel
  */
-public class VistaCliente extends javax.swing.JFrame {
+public class VistaCliente extends javax.swing.JFrame implements ActionListener{
 
     /**
      * Creates new form VistaCliente
      */
-   
+    private JButton categorias[];
+    private JButton productos[];
+    private JLabel nombreProductos[];
+    private static final int NUMCATEGORIAS = 5;
+    private static final int NUMPRODUCTOS = 8;
+    private Producto productoPrincipal;
+    private int cantidadDeProductos;
+    private Producto producto[];
+    private Categoria categoria[];
+    private ObjectOutputStream oos;
+    private ObjectInputStream ois;
+    ListaProductos lp;
+    ListaCategoria lc;
+    ArrayList productosCesta;
+            
+    
+    
     public VistaCliente(ObjectOutputStream oos, ObjectInputStream  ois) 
             throws IOException, ClassNotFoundException 
     {
@@ -46,8 +68,11 @@ public class VistaCliente extends javax.swing.JFrame {
                 }
             }
         });
+        
+        this.oos = oos;
+        this.ois = ois;
         initComponents();
-        init(oos, ois);
+        init();
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setResizable(false);//no permite que sea redimincionable
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass()
@@ -56,7 +81,8 @@ public class VistaCliente extends javax.swing.JFrame {
         this.setTitle("CML EXPRESS"); 
       
     }
-     private void close(ObjectOutputStream oos, ObjectInputStream  ois) throws IOException{
+    
+    private void close(ObjectOutputStream oos, ObjectInputStream  ois) throws IOException{
         if (JOptionPane.showConfirmDialog(rootPane, "¿Deseas salir del sistema?",
                 "Salir del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
         {
@@ -67,26 +93,194 @@ public class VistaCliente extends javax.swing.JFrame {
             
         }
     } 
-    public void init(ObjectOutputStream oos, ObjectInputStream  ois) 
+    
+    public void init() 
             throws IOException, ClassNotFoundException
     {
         ImageIcon iconoOriginal = new ImageIcon("src/pdf/LogoCML.png");
         ImageIcon iconoEscala = new ImageIcon(iconoOriginal.getImage().getScaledInstance(JLCML.getWidth(), JLCML.getHeight(), java.awt.Image.SCALE_DEFAULT));
         JLCML.setIcon(iconoEscala);
-        ListaCategoria lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
-        ImageIcon img = new ImageIcon(lc.get(0).getImagenEnBuffer());
-        this.Categoria1.setIcon(new ImageIcon(img.getImage().getScaledInstance(Categoria1.getWidth(), Categoria1.getHeight(), java.awt.Image.SCALE_DEFAULT)));
-        System.out.print(lc.get(0).getRuta());
-        ListaProductos lp =AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois,  lc.get(0).getRuta());
-        lp.mostrar();
+        lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
+        
+        categorias = new JButton[NUMCATEGORIAS];
+        categorias[0] = Categoria1;
+        categorias[1] = Categoria2;
+        categorias[2] = Categoria3;
+        categorias[3] = Categoria4;
+        categorias[4] = Categoria5;
+        
+        productos = new JButton[NUMPRODUCTOS];
+        productos[0] = Producto1;
+        productos[1] = Producto2;
+        productos[2] = Producto3;
+        productos[3] = Producto4;
+        productos[4] = Producto5;
+        productos[5] = Producto6;
+        productos[6] = Producto7;
+        productos[7] = Producto8;
+        
+        nombreProductos = new JLabel[NUMPRODUCTOS];
+        nombreProductos[0] = DescripcionP1;
+        nombreProductos[1] = DescripcionP2;
+        nombreProductos[2] = DescripcionP3;
+        nombreProductos[3] = DescripcionP4;
+        nombreProductos[4] = DescripcionP5;
+        nombreProductos[5] = DescripcionP6;
+        nombreProductos[6] = DescripcionP7;
+        nombreProductos[7] = DescripcionP8;
+        
+        int i;
+        for( i = 0 ; i < NUMCATEGORIAS; i++)
+            categorias[i].addActionListener(this);
+        for( i = 0 ; i < NUMPRODUCTOS; i++)
+            productos[i].addActionListener(this);
+        
+        Imagen1.addActionListener(this);
+        Imagen2.addActionListener(this);
+        Imagen3.addActionListener(this);
+        Imagen4.addActionListener(this);
+        
+        Agregar.addActionListener(this);
+        Quitar.addActionListener(this);
+        
+        AgregarAlaCesta.addActionListener(this);
+        
+        lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois,  lc.get(0).getRuta());
+        
+        setCategorias(lc, 0, NUMCATEGORIAS < lc.getSize() ? NUMCATEGORIAS : lc.getSize());
+        setProductos(lp, 0, NUMPRODUCTOS < lp.getSize() ? NUMPRODUCTOS : lp.getSize());
+        if(lp.getSize() > 0)
+            setProductoPrincipal(lp.get(0));
+        
+        productosCesta = new ArrayList();
+     
+    }
+    private void setCategorias(ListaCategoria lc, int botonInicial, int botonFinal)
+    {
+        if (lc != null) {
+            categoria = new Categoria[botonFinal - botonInicial + 1];
+            ImageIcon img; int i;
+            for (i = botonInicial; i < botonFinal; i++) 
+            {
+                img = new ImageIcon(lc.get(i).getImagenEnBuffer());
+                categorias[i].setIcon(new ImageIcon(img.getImage().getScaledInstance(categorias[i].getWidth(),
+                                        categorias[i].getHeight(), java.awt.Image.SCALE_DEFAULT)));
+                categoria[i] = lc.get(i);
+            }
+            
+            for (; i < NUMCATEGORIAS; i++) {
+                categorias[i].setVisible(false);
+            }
+
+        }
     }
     
-    
-    public void setCategorias(ListaCategoria lc)
+    private void setProductos(ListaProductos lp, int botonInicial, int botonFinal)
     {
-        
+       if(lp != null)
+        {
+            producto = new Producto[botonFinal - botonInicial + 1];
+            NombreCategoria.setText(lp.get(0).getCategoria().toUpperCase());
+            ImageIcon img;
+            int i = 0;
+            for (i = botonInicial; i < botonFinal; i++) {
+                img = new ImageIcon(lp.get(i).getImagenesEnBuffer()[0]);
+                productos[i].setIcon(new ImageIcon(img.getImage().getScaledInstance(productos[i].getWidth(),
+                        productos[i].getHeight(), java.awt.Image.SCALE_DEFAULT)));
+                nombreProductos[i].setText(recortarCadena(lp.get(i).getNombre()));
+                producto[i] = lp.get(i);
+            }
+            for (; i < NUMPRODUCTOS; i++) {
+                productos[i].setVisible(false);
+                nombreProductos[i].setVisible(false);
+            }
+        }
+            
+    }
+    
+    private void setProductoPrincipal(Producto producto)
+    {
+        if(producto != null)
+        {
+            
+            ImageIcon img;
+            if(producto.getImagenesEnBuffer().length > 0)
+            {
+                Imagen1.setVisible(true);
+                img = new ImageIcon(producto.getImagenesEnBuffer()[0]);
+                Imagen1.setIcon(new ImageIcon(img.getImage()
+                                    .getScaledInstance(Imagen1.getWidth(), 
+                                                       Imagen1.getHeight(), 
+                                                       java.awt.Image.SCALE_DEFAULT)));
+                ImagenProductoPrincipal.setIcon(new ImageIcon(img.getImage()
+                                    .getScaledInstance(ImagenProductoPrincipal.getWidth(), 
+                                                       ImagenProductoPrincipal.getHeight(), 
+                                                       java.awt.Image.SCALE_DEFAULT)));
+            }else
+            {
+               Imagen1.setVisible(false);
+            }
+            
+            if(producto.getImagenesEnBuffer().length > 1)
+            {
+                Imagen2.setVisible(true);
+                img = new ImageIcon(producto.getImagenesEnBuffer()[0]);
+                Imagen2.setIcon(new ImageIcon(img.getImage()
+                                    .getScaledInstance(Imagen2.getWidth(), 
+                                                       Imagen2.getHeight(), 
+                                                       java.awt.Image.SCALE_DEFAULT)));
+            }
+            else
+            {
+               Imagen2.setVisible(false);
+            }
+            
+            
+            if(producto.getImagenesEnBuffer().length > 2)
+            {
+                Imagen3.setVisible(true);
+                img = new ImageIcon(producto.getImagenesEnBuffer()[0]);
+                Imagen3.setIcon(new ImageIcon(img.getImage()
+                                    .getScaledInstance(Imagen3.getWidth(), 
+                                                       Imagen3.getHeight(), 
+                                                       java.awt.Image.SCALE_DEFAULT)));
+            }
+            else
+            {
+               Imagen3.setVisible(false);
+            }
+            
+            
+            if(producto.getImagenesEnBuffer().length > 3)
+            {
+                Imagen4.setVisible(true);
+                img = new ImageIcon(producto.getImagenesEnBuffer()[0]);
+                Imagen4.setIcon(new ImageIcon(img.getImage()
+                                    .getScaledInstance(Imagen4.getWidth(), 
+                                                       Imagen4.getHeight(), 
+                                                       java.awt.Image.SCALE_DEFAULT)));
+            }else
+            {
+               Imagen4.setVisible(false);
+            }
+            
+            Nombre.setText(producto.getNombre());
+            Descripcion.setText("Descripción: " + producto.getDescripcion());
+            Precio.setText("Precio: $" + producto.getPrecio());
+            Existencias.setText("Existencias: " + producto.getExistencias());
+            productoPrincipal = producto;
+            cantidadDeProductos = 1;
+        }
     }
 
+    private String recortarCadena(String cadena)
+    {
+        if(cadena.length() > 15)
+        {
+            return cadena.substring(0, 15) + "...";
+        }
+        return cadena;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,8 +294,8 @@ public class VistaCliente extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         ComprarTodo = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        ComprarProducto = new javax.swing.JButton();
+        NombreCategoria = new javax.swing.JLabel();
+        ImagenProductoPrincipal = new javax.swing.JLabel();
         AgregarAlaCesta = new javax.swing.JButton();
         Precio = new javax.swing.JLabel();
         Descripcion = new javax.swing.JLabel();
@@ -138,6 +332,11 @@ public class VistaCliente extends javax.swing.JFrame {
         Producto8 = new javax.swing.JButton();
         DescripcionP7 = new javax.swing.JLabel();
         DescripcionP8 = new javax.swing.JLabel();
+        Imagen2 = new javax.swing.JButton();
+        Imagen4 = new javax.swing.JButton();
+        Imagen1 = new javax.swing.JButton();
+        EliminarCesta = new javax.swing.JButton();
+        Imagen3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -154,7 +353,7 @@ public class VistaCliente extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 617, Short.MAX_VALUE)
+            .addGap(0, 629, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(jPanel3);
@@ -166,7 +365,9 @@ public class VistaCliente extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(339, 339, 339)
+                .addComponent(NombreCategoria)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ComprarTodo)
                 .addGap(21, 21, 21))
         );
@@ -174,10 +375,10 @@ public class VistaCliente extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(ComprarTodo))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ComprarTodo)
+                    .addComponent(NombreCategoria)))
         );
-
-        ComprarProducto.setText("Comprar");
 
         AgregarAlaCesta.setText("Añadir a la cesta");
 
@@ -254,9 +455,9 @@ public class VistaCliente extends javax.swing.JFrame {
 
         AnterioresProductos.setText("<<");
 
-        DescripcionP1.setText("________");
+        DescripcionP1.setText("_______________");
 
-        DescripcionP2.setText("________");
+        DescripcionP2.setText("______________");
 
         Producto3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -264,9 +465,9 @@ public class VistaCliente extends javax.swing.JFrame {
             }
         });
 
-        DescripcionP3.setText("________");
+        DescripcionP3.setText("______________");
 
-        DescripcionP4.setText("________");
+        DescripcionP4.setText("______________");
 
         Producto5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -274,9 +475,9 @@ public class VistaCliente extends javax.swing.JFrame {
             }
         });
 
-        DescripcionP5.setText("________");
+        DescripcionP5.setText("______________");
 
-        DescripcionP6.setText("________");
+        DescripcionP6.setText("______________");
 
         Producto7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -284,9 +485,9 @@ public class VistaCliente extends javax.swing.JFrame {
             }
         });
 
-        DescripcionP7.setText("________");
+        DescripcionP7.setText("______________");
 
-        DescripcionP8.setText("________");
+        DescripcionP8.setText("______________");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -294,62 +495,48 @@ public class VistaCliente extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Producto1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Producto2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(DescripcionP1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(DescripcionP2)
-                .addGap(71, 71, 71))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(Producto3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Producto4, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(DescripcionP3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DescripcionP4)
-                        .addGap(73, 73, 73))))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(Producto5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Producto6, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(DescripcionP5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DescripcionP6)
-                        .addGap(72, 72, 72))))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(DescripcionP7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DescripcionP8)
-                        .addGap(69, 69, 69))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Producto7, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(AnterioresProductos))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Producto3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DescripcionP3))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Producto4, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DescripcionP4)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Producto1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DescripcionP1))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DescripcionP2)
+                            .addComponent(Producto2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Producto5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DescripcionP5))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DescripcionP6)
+                            .addComponent(Producto6, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addComponent(Producto7, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                    .addComponent(AnterioresProductos)
+                                    .addGap(25, 25, 25)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(DescripcionP7)
+                                .addGap(95, 95, 95)))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DescripcionP8)
                             .addComponent(SiguientesProductos)
-                            .addComponent(Producto8, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(Producto8, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,8 +577,10 @@ public class VistaCliente extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AnterioresProductos)
                     .addComponent(SiguientesProductos))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
+
+        EliminarCesta.setText("Eliminar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -401,29 +590,40 @@ public class VistaCliente extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Descripcion)
-                    .addComponent(Nombre)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(ComprarProducto)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(AgregarAlaCesta))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ImagenProductoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Nombre)
                             .addComponent(Precio)
                             .addComponent(Existencias)
+                            .addComponent(Descripcion)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Quitar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(Cantidad)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Agregar)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Agregar))
+                            .addComponent(AgregarAlaCesta))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Imagen2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Imagen1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(12, 12, 12))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(Imagen3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Imagen4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 12, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(EliminarCesta)
+                        .addGap(122, 122, 122))))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -435,31 +635,40 @@ public class VistaCliente extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ImagenProductoPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(58, 58, 58)
-                                        .addComponent(Precio)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(Existencias)
-                                        .addGap(20, 20, 20)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(Cantidad)
-                                            .addComponent(Quitar)
-                                            .addComponent(Agregar)))
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(AgregarAlaCesta)
-                                    .addComponent(ComprarProducto))
+                                .addGap(61, 61, 61)
+                                .addComponent(Imagen1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Imagen2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(AgregarAlaCesta)
                                 .addGap(18, 18, 18)
                                 .addComponent(Nombre)
-                                .addGap(13, 13, 13)
-                                .addComponent(Descripcion)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Precio)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Existencias)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Quitar)
+                                    .addComponent(Cantidad)
+                                    .addComponent(Agregar))
+                                .addGap(24, 24, 24)
+                                .addComponent(Descripcion))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Imagen3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(Imagen4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(EliminarCesta)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -568,7 +777,6 @@ public class VistaCliente extends javax.swing.JFrame {
     private javax.swing.JButton Categoria3;
     private javax.swing.JButton Categoria4;
     private javax.swing.JButton Categoria5;
-    private javax.swing.JButton ComprarProducto;
     private javax.swing.JButton ComprarTodo;
     private javax.swing.JLabel Descripcion;
     private javax.swing.JLabel DescripcionP1;
@@ -579,9 +787,16 @@ public class VistaCliente extends javax.swing.JFrame {
     private javax.swing.JLabel DescripcionP6;
     private javax.swing.JLabel DescripcionP7;
     private javax.swing.JLabel DescripcionP8;
+    private javax.swing.JButton EliminarCesta;
     private javax.swing.JLabel Existencias;
+    private javax.swing.JButton Imagen1;
+    private javax.swing.JButton Imagen2;
+    private javax.swing.JButton Imagen3;
+    private javax.swing.JButton Imagen4;
+    private javax.swing.JLabel ImagenProductoPrincipal;
     private javax.swing.JLabel JLCML;
     private javax.swing.JLabel Nombre;
+    private javax.swing.JLabel NombreCategoria;
     private javax.swing.JLabel Precio;
     private javax.swing.JButton Producto1;
     private javax.swing.JButton Producto2;
@@ -594,11 +809,94 @@ public class VistaCliente extends javax.swing.JFrame {
     private javax.swing.JButton Quitar;
     private javax.swing.JButton SiguientesCategorias;
     private javax.swing.JButton SiguientesProductos;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent ae) 
+    {
+        if (ae.getSource().equals(Imagen1)) 
+        {
+             ImagenProductoPrincipal.setIcon(new ImageIcon(productoPrincipal.getImagenesEnBuffer()[0]
+                                    .getScaledInstance(ImagenProductoPrincipal.getWidth(), 
+                                                       ImagenProductoPrincipal.getHeight(), 
+                                                       java.awt.Image.SCALE_DEFAULT)));
+        }
+        else if (ae.getSource().equals(Imagen2)) 
+        {
+             ImagenProductoPrincipal.setIcon(new ImageIcon(productoPrincipal.getImagenesEnBuffer()[1]
+                                    .getScaledInstance(ImagenProductoPrincipal.getWidth(), 
+                                                       ImagenProductoPrincipal.getHeight(), 
+                                                       java.awt.Image.SCALE_DEFAULT)));
+        }
+        else if (ae.getSource().equals(Imagen3)) 
+        {
+            ImagenProductoPrincipal.setIcon(new ImageIcon(productoPrincipal.getImagenesEnBuffer()[2]
+                                    .getScaledInstance(ImagenProductoPrincipal.getWidth(), 
+                                                       ImagenProductoPrincipal.getHeight(), 
+                                                       java.awt.Image.SCALE_DEFAULT)));
+        }
+        else if (ae.getSource().equals(Imagen4)) 
+        {
+            ImagenProductoPrincipal.setIcon(new ImageIcon(productoPrincipal.getImagenesEnBuffer()[3]
+                                    .getScaledInstance(ImagenProductoPrincipal.getWidth(), 
+                                                       ImagenProductoPrincipal.getHeight(), 
+                                                       java.awt.Image.SCALE_DEFAULT)));
+        }
+        
+        if (ae.getSource().equals(Agregar)) 
+        {
+            if(cantidadDeProductos < productoPrincipal.getExistencias())
+            {
+                cantidadDeProductos++;
+                Cantidad.setText(String.valueOf(cantidadDeProductos));
+            }
+        }
+        
+        if (ae.getSource().equals(Quitar)) 
+        {
+            if(cantidadDeProductos > 1)
+            {
+                cantidadDeProductos--;
+                Cantidad.setText(String.valueOf(cantidadDeProductos));
+            }
+        }
+        
+        int i = 0;
+        for(i = 0; i < NUMPRODUCTOS; i++)
+        {
+            if(productos[i] != null)
+            {
+                if(ae.getSource().equals(productos[i]))
+                {
+                    this.setProductoPrincipal(producto[i]);
+                }
+            }
+        }
+        
+        for(i = 0; i < NUMCATEGORIAS; i++)
+        {
+            if(categorias[i] != null)
+            {
+                if(ae.getSource().equals(categorias[i]))
+                {
+                    try {
+                        lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois, categoria[i].getRuta());
+                        setProductos(lp, 0, NUMPRODUCTOS < lp.getSize() ? NUMPRODUCTOS : lp.getSize());
+                        if(lp.getSize() > 0)
+                            setProductoPrincipal(lp.get(0));
+                    } catch (IOException ex) {
+                        Logger.getLogger(VistaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(VistaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                }
+            }
+        }
+    }
 }
