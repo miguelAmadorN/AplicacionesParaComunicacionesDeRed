@@ -20,16 +20,16 @@ public class IdOperaciones {
     public final static int TERMINAR_CONEXION              = 8;
     
     
-    public final static String TELEFONIA                   = "telefonia";
-    public final static String INFORMATICA                 = "informatica";
-    public final static String DEPORTES                    = "deportes";
-    public final static String LIBROS                      = "libros";
-    public final static String TELEVISORES                 = "televisores";
-    public final static String VIDEOJUEGOS                 = "videojuegos";
+    public final static String TELEFONIA                   = "Telefonia";
+    public final static String INFORMATICA                 = "Informatica";
+    public final static String DEPORTES                    = "Deportes";
+    public final static String LIBROS                      = "Libros";
+    public final static String TELEVISORES                 = "Televisores";
+    public final static String VIDEOJUEGOS                 = "Videojuegos";
     
-    public final static String AUTOS                       = "autos";
-    public final static String CALZADO                     = "calzado";
-    public final static String JOYERIA                     = "joyeria";
-    public final static String MODA                        = "moda";
-    public final static String SALUD                       = "salud";
+    public final static String AUTOS                       = "Autos";
+    public final static String CALZADO                     = "Calzado";
+    public final static String JOYERIA                     = "Joyeria";
+    public final static String MODA                        = "Moda";
+    public final static String SALUD                       = "Salud";
 }
