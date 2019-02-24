@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -29,9 +30,9 @@ public class DialogoPaqueteria extends javax.swing.JDialog {
     /**
      * Creates new form DialogoPaqueteria
      */
-    ControladorPaqueteria cp;
-    JRadioButton radio[];
-    ListaEmpresasDeEnvio lede;
+    private ControladorPaqueteria cp;
+    private ArrayList radio;
+    private ListaEmpresasDeEnvio lede;
     public DialogoPaqueteria(java.awt.Frame parent, boolean modal) 
     throws IOException, FileNotFoundException, ClassNotFoundException
     {
@@ -45,6 +46,7 @@ public class DialogoPaqueteria extends javax.swing.JDialog {
         //this.setResizable(false);//no permite que sea redimincionable
         this.setLocationRelativeTo(this);//la ventana aparece al centro de la pantalla
         cp = new ControladorPaqueteria();
+        radio = new ArrayList();
         jBAgregar.addActionListener(new ActionListener() 
         {
             public void actionPerformed(ActionEvent e) 
@@ -113,11 +115,15 @@ public class DialogoPaqueteria extends javax.swing.JDialog {
         {
             public void actionPerformed(ActionEvent e) 
             {
-                for(int i = 0; i < radio.length; i++)
+                JRadioButton jrb;
+                for(int i = 0; i < radio.size(); i++)
                 {
-                    if(radio[i].isSelected())
+                    jrb = (JRadioButton) radio.get(i);
+                    if(jrb.isSelected())
                     {
+                        radio.remove(i);
                         lede.remove(i);
+                        i--;
                     }
                 }
                 cp.eliminarPaqueterias(lede);
@@ -135,12 +141,14 @@ public class DialogoPaqueteria extends javax.swing.JDialog {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(RUTA_PAQUETERIA));
             ListaEmpresasDeEnvio le = (ListaEmpresasDeEnvio) in.readObject();
             JPanel panel = new JPanel(new GridLayout(0, 1));
-            radio = new JRadioButton[le.getSize()];
+            JRadioButton jrb;
             for (int i = 0; i < le.getSize(); i++) {
-                radio[i] = new JRadioButton();
-                radio[i].setText(le.get(i).getNombre() + ", " + le.get(i).getTiempoDeEntrega() + ", " +
-                              "$" + le.get(i).getCosto() );
-                panel.add(radio[i]);
+                jrb = new JRadioButton();
+                jrb.setText("ID: "+  le.get(i).getId()+ " " + le.get(i).getNombre() + ", " +
+                        le.get(i).getTiempoDeEntrega() + ", " + "$" + le.get(i).getCosto() );
+                
+                radio.add(jrb);
+                panel.add(jrb);
             }
             jScrollPane1.setViewportView(panel);
            // this.add(jScrollPane1);
