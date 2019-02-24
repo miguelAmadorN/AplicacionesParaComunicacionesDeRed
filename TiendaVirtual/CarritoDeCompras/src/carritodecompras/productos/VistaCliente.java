@@ -39,6 +39,12 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
     private static final int NUMCATEGORIAS = 5;
     private static final int NUMPRODUCTOS = 8;
     
+    private final int AnchoCategoriaBoton = 141;
+    private final int AltoCategoriaBoton = 70;
+    
+    private final int AnchoProductoBoton = 160;
+    private final int AltoProductoBoton = 90;
+    
     private JButton categorias[];
     private JButton productos[];
     private JLabel nombreProductos[];
@@ -52,6 +58,8 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
     private ListaCategoria lc;
     private ArrayList productosCesta;
     private ArrayList radio;
+    short anilloCategorias, anilloProductos, residuoCategorias, residuoProductos,
+            posCategorias, posProductos;
             
     //No es una lista Jradiobutton problemas al eliminar
     
@@ -106,6 +114,11 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         ImageIcon iconoEscala = new ImageIcon(iconoOriginal.getImage().getScaledInstance(JLCML.getWidth(), JLCML.getHeight(), java.awt.Image.SCALE_DEFAULT));
         JLCML.setIcon(iconoEscala);
         lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
+        anilloCategorias  = (short) (lc.getSize() / NUMCATEGORIAS);
+        residuoCategorias = (short) (lc.getSize() % NUMCATEGORIAS);
+        posCategorias = 0;
+        posProductos  = 0;
+        
         
         categorias = new JButton[NUMCATEGORIAS];
         categorias[0] = Categoria1;
@@ -151,11 +164,16 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         AgregarAlaCesta.addActionListener(this);
         EliminarCesta.addActionListener(this);
         ComprarTodo.addActionListener(this);
+        SiguientesCategorias.addActionListener(this);
+        AnterioresCategorias.addActionListener(this);
+        SiguientesProductos.addActionListener(this);
+        AnterioresProductos.addActionListener(this);
         
         lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois,  lc.get(0).getRuta());
-        
-        setCategorias(lc, 0, NUMCATEGORIAS < lc.getSize() ? NUMCATEGORIAS : lc.getSize());
-        setProductos(lp, 0, NUMPRODUCTOS < lp.getSize() ? NUMPRODUCTOS : lp.getSize());
+        categoria = new Categoria[NUMCATEGORIAS];
+        producto = new Producto[NUMPRODUCTOS];
+        setCategorias( 0, NUMCATEGORIAS < lc.getSize() ? NUMCATEGORIAS : lc.getSize());
+        setProductos( 0, NUMPRODUCTOS < lp.getSize() ? NUMPRODUCTOS : lp.getSize());
         if(lp.getSize() > 0)
             setProductoPrincipal(lp.get(0));
         
@@ -166,40 +184,50 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         
      
     }
+    
+    /*
     private void setCategorias(ListaCategoria lc, int botonInicial, int botonFinal)
+    */
+    private void setCategorias( int botonInicial, int botonFinal)
     {
         if (lc != null) {
-            categoria = new Categoria[botonFinal - botonInicial + 1];
-            ImageIcon img; int i;
+           
+            ImageIcon img; int i, j;
             for (i = botonInicial; i < botonFinal; i++) 
             {
+                j = i % NUMCATEGORIAS;
+                categorias[j].setVisible(true);
                 img = new ImageIcon(lc.get(i).getImagenEnBuffer());
-                categorias[i].setIcon(new ImageIcon(img.getImage().getScaledInstance(categorias[i].getWidth(),
-                                        categorias[i].getHeight(), java.awt.Image.SCALE_DEFAULT)));
-                categoria[i] = lc.get(i);
+                categorias[j].setIcon(new ImageIcon(img.getImage().getScaledInstance(AnchoCategoriaBoton,
+                                       this.AltoCategoriaBoton, java.awt.Image.SCALE_DEFAULT)));
+                
+                categoria[j] = lc.get(i);
             }
-            
+            i = botonFinal - botonInicial;
             for (; i < NUMCATEGORIAS; i++) {
                 categorias[i].setVisible(false);
             }
         }
     }
     
+    /*
     private void setProductos(ListaProductos lp, int botonInicial, int botonFinal)
+    */
+    private void setProductos(int botonInicial, int botonFinal)
     {
        if(lp != null)
         {
-            producto = new Producto[botonFinal - botonInicial + 1];
             NombreCategoria.setText(lp.get(0).getCategoria().toUpperCase());
             ImageIcon img;
             int i = 0;
             for (i = botonInicial; i < botonFinal; i++) {
                 img = new ImageIcon(lp.get(i).getImagenesEnBuffer()[0]);
-                productos[i].setIcon(new ImageIcon(img.getImage().getScaledInstance(productos[i].getWidth(),
-                        productos[i].getHeight(), java.awt.Image.SCALE_DEFAULT)));
+                productos[i].setIcon(new ImageIcon(img.getImage().getScaledInstance(AnchoProductoBoton,
+                        AltoProductoBoton, java.awt.Image.SCALE_DEFAULT)));
                 nombreProductos[i].setText(recortarCadena(lp.get(i).getNombre()));
                 producto[i] = lp.get(i);
             }
+            i = botonFinal - botonInicial;
             for (; i < NUMPRODUCTOS; i++) {
                 productos[i].setVisible(false);
                 nombreProductos[i].setVisible(false);
@@ -297,12 +325,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             {
                 
                 pc = (ProductoCompra) productosCesta.get(i);
-                /*
-                radio[i].setText("<html><body>"+ recortarCadena(pc.getProducto().getNombre()) 
-                                    +" X" + pc.getCantidad() + "<br>" 
-                                    + pc.getProducto().getDescripcion()+ "<br>" 
-                                    + "c.u: " + pc.getProducto().getPrecio() +"</body></html>");
-                */
+                
                 jrb = (JRadioButton)radio.get(i);
                 jrb.setText(UIFunctions.formatoDescripcion(pc.getProducto().getNombre() + " " +
                                                     " X" + pc.getCantidad() +"; "+ pc.getProducto().getDescripcion() +
@@ -461,7 +484,17 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
 
         jPanel2.setBackground(new java.awt.Color(254, 254, 254));
 
+        Categoria1.setBackground(new java.awt.Color(254, 254, 254));
+
+        Categoria2.setBackground(new java.awt.Color(254, 254, 254));
+
+        Categoria3.setBackground(new java.awt.Color(254, 254, 254));
+
+        Categoria4.setBackground(new java.awt.Color(254, 254, 254));
+
         SiguientesCategorias.setText(">>");
+
+        Categoria5.setBackground(new java.awt.Color(254, 254, 254));
 
         AnterioresCategorias.setText("<<");
 
@@ -469,25 +502,23 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(JLCML, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(Categoria4, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
-                            .addComponent(Categoria3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Categoria2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Categoria1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(Categoria5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 54, Short.MAX_VALUE)
                 .addComponent(AnterioresCategorias)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SiguientesCategorias)
                 .addGap(53, 53, 53))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(Categoria4, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                        .addComponent(Categoria1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Categoria2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Categoria3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Categoria5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(JLCML, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -507,7 +538,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SiguientesCategorias)
                     .addComponent(AnterioresCategorias))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         Cantidad.setText("1");
@@ -518,11 +549,14 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
 
         jPanel4.setBackground(new java.awt.Color(254, 254, 254));
 
+        Producto1.setBackground(new java.awt.Color(254, 254, 254));
         Producto1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Producto1ActionPerformed(evt);
             }
         });
+
+        Producto2.setBackground(new java.awt.Color(254, 254, 254));
 
         SiguientesProductos.setText(">>");
 
@@ -532,31 +566,40 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
 
         DescripcionP2.setText("______________");
 
+        Producto3.setBackground(new java.awt.Color(254, 254, 254));
         Producto3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Producto3ActionPerformed(evt);
             }
         });
 
+        Producto4.setBackground(new java.awt.Color(254, 254, 254));
+
         DescripcionP3.setText("______________");
 
         DescripcionP4.setText("______________");
 
+        Producto5.setBackground(new java.awt.Color(254, 254, 254));
         Producto5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Producto5ActionPerformed(evt);
             }
         });
 
+        Producto6.setBackground(new java.awt.Color(254, 254, 254));
+
         DescripcionP5.setText("______________");
 
         DescripcionP6.setText("______________");
 
+        Producto7.setBackground(new java.awt.Color(254, 254, 254));
         Producto7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Producto7ActionPerformed(evt);
             }
         });
+
+        Producto8.setBackground(new java.awt.Color(254, 254, 254));
 
         DescripcionP7.setText("______________");
 
@@ -575,24 +618,30 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                             .addComponent(DescripcionP3))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Producto4, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(DescripcionP4)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(DescripcionP4)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(Producto4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Producto1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(DescripcionP1))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DescripcionP2)
-                            .addComponent(Producto2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(DescripcionP2)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(Producto2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Producto5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(DescripcionP5))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DescripcionP6)
-                            .addComponent(Producto6, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(DescripcionP6)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(Producto6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -609,13 +658,13 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                             .addComponent(DescripcionP8)
                             .addComponent(SiguientesProductos)
                             .addComponent(Producto8, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Producto1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Producto2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -623,15 +672,15 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                     .addComponent(DescripcionP1)
                     .addComponent(DescripcionP2))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Producto3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Producto4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Producto3, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(Producto4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DescripcionP3)
                     .addComponent(DescripcionP4))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Producto5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Producto6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -663,9 +712,9 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -676,7 +725,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                                         .addComponent(Cantidad)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(Agregar)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 417, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(Existencias)
@@ -696,11 +745,11 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                                                 .addComponent(Imagen4, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                 .addGap(18, 18, 18)))
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(24, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(EliminarCesta)
-                        .addGap(122, 122, 122))))
+                        .addGap(92, 92, 92))))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -924,7 +973,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                                                        java.awt.Image.SCALE_DEFAULT)));
         }
         
-        if (ae.getSource().equals(Agregar)) 
+        else if (ae.getSource().equals(Agregar)) 
         {
             if(cantidadDeProductos < productoPrincipal.getExistencias())
             {
@@ -933,7 +982,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             }
         }
         
-        if (ae.getSource().equals(Quitar)) 
+        else if (ae.getSource().equals(Quitar)) 
         {
             if(cantidadDeProductos > 1)
             {
@@ -942,19 +991,57 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             }
         }
         
-        if (ae.getSource().equals(AgregarAlaCesta)) 
+        else if (ae.getSource().equals(AgregarAlaCesta)) 
         {
             productosCesta.add(new ProductoCompra(productoPrincipal, cantidadDeProductos));
             mostrarCesta();
         }
         
-        if (ae.getSource().equals(EliminarCesta)) 
+        else if (ae.getSource().equals(EliminarCesta)) 
         {
             eliminarDeLaCesta();
             mostrarCesta();
         }
+        else if (ae.getSource().equals(SiguientesProductos)) 
+        {
+            
+        }
+        else if (ae.getSource().equals(AnterioresProductos)) 
+        {
+            
+        }
+        else if (ae.getSource().equals(SiguientesCategorias)) 
+        {
+            posCategorias++;
+            if(posCategorias < anilloCategorias)
+            {   
+                this.setCategorias(posCategorias * NUMCATEGORIAS, (posCategorias + 1) * NUMCATEGORIAS);
+               
+            }
+            else if(posCategorias == anilloCategorias && residuoCategorias > 0)
+            {
+                this.setCategorias(posCategorias * NUMCATEGORIAS, lc.getSize());    
+            }
+            else
+            {
+               posCategorias--; 
+            }
+            
+        }
+        else if (ae.getSource().equals(AnterioresCategorias)) 
+        {
+            posCategorias--;
+            if(posCategorias > -1)
+            {   
+                this.setCategorias(posCategorias * NUMCATEGORIAS, (posCategorias + 1) * NUMCATEGORIAS);
+            }
+            else
+            {
+               posCategorias++; 
+            }
+        }
         
-        if(ae.getSource().equals(ComprarTodo))
+        else if(ae.getSource().equals(ComprarTodo))
         {
             if (productosCesta.size() > 0) {
                 DialogoCompra dialog = null;
@@ -999,8 +1086,9 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 if(ae.getSource().equals(categorias[i]))
                 {
                     try {
-                        lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois, categoria[i].getRuta());
-                        setProductos(lp, 0, NUMPRODUCTOS < lp.getSize() ? NUMPRODUCTOS : lp.getSize());
+                        lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois, 
+                                                                                        categoria[i].getRuta());
+                        setProductos( 0, NUMPRODUCTOS < lp.getSize() ? NUMPRODUCTOS : lp.getSize());
                         if(lp.getSize() > 0)
                             setProductoPrincipal(lp.get(0));
                     } catch (IOException ex) {

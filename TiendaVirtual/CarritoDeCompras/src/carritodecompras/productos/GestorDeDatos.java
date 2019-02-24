@@ -502,10 +502,10 @@ public class GestorDeDatos {
         
         Producto pc7 = new ProductoArchivo(7,"Zapatillas","Calzado para dama diferentes marcas",900.00,100,
                 new String[]{"Negro","Cafe"},new String[]{"Piel"},
-                new String[]{"Archivos/Productos/Categorias/Calzado/Zapatilla.png",
-                "Archivos/Productos/Categorias/Calzado/Zapatilla2.jpg",
-                "Archivos/Productos/Categorias/Calzado/Zapatilla3.jpg",
-                "Archivos/Productos/Categorias/Calzado/Zapatilla4.jpg"},null,
+                new String[]{"Archivos/Productos/Categorias/Calzado/zapatilla.png",
+                "Archivos/Productos/Categorias/Calzado/zapatilla2.jpg",
+                "Archivos/Productos/Categorias/Calzado/zapatilla3.jpg",
+                "Archivos/Productos/Categorias/Calzado/zapatilla4.jpg"},null,
                 "Calzado",new String[]{"Calzado","Piel"});
         
         Producto pc8 = new ProductoArchivo(8,"Zapato","Calzado formal caballero ",5990.00,100,
@@ -610,7 +610,6 @@ public class GestorDeDatos {
                 new String[]{"Verde"},new String[]{"Tela de algodon"},
                 new String[]{"Archivos/Productos/Categorias/Moda/verde.png",
                 "Archivos/Productos/Categorias/Moda/verde2.jpg",
-                "Archivos/Productos/Categorias/Moda/verde3.jpg",
                 "Archivos/Productos/Categorias/Moda/verde4.jpg"},null,
                 "Moda",new String[]{"Moda","Under Armour"});
         
@@ -634,8 +633,7 @@ public class GestorDeDatos {
                 new String[]{"Rayas"},new String[]{"Tela de algodon"},
                 new String[]{"Archivos/Productos/Categorias/Moda/rayas.jpg",
                 "Archivos/Productos/Categorias/Moda/rayas2.jpg",
-                "Archivos/Productos/Categorias/Moda/rayas3.jpg",
-                "Archivos/Productos/Categorias/Moda/rayas4.jpg"},null,
+                "Archivos/Productos/Categorias/Moda/rayas3.jpg",},null,
                 "Moda",new String[]{"Moda","Ropa caballero"});
         
         Producto pm10 = new ProductoArchivo(10,"Camisa","Camisa hombre fit con cuello en algodon",499.00,100,
@@ -673,10 +671,10 @@ public class GestorDeDatos {
         
         Producto ps4 = new ProductoArchivo(4,"Perfume","Agradables aromas que duran todo el dia",990.00,100,
                 new String[]{"Hombre","Mujer"},new String[]{"Para un olor inigualable"},
-                new String[]{"Archivos/Productos/Categorias/Salud.perfume.png",
-                "Archivos/Productos/Categorias/Salud.perfume2.jpg",
-                "Archivos/Productos/Categorias/Salud.perfume3.jpg",
-                "Archivos/Productos/Categorias/Salud.perfume4.jpg"},null,
+                new String[]{"Archivos/Productos/Categorias/Salud/perfume.png",
+                "Archivos/Productos/Categorias/Salud/perfume2.jpg",
+                "Archivos/Productos/Categorias/Salud/perfume3.jpg",
+                "Archivos/Productos/Categorias/Salud/perfume4.jpg"},null,
                 "Salud",new String[]{"Salud","Higiene"});
         
         Producto ps5 = new ProductoArchivo(5,"Rastrillo","Rastrillos Guillette prestobarba",5990.00,100,
@@ -698,7 +696,6 @@ public class GestorDeDatos {
         Producto ps7 = new ProductoArchivo(7,"Toallas","Toallas femeninas Saba ultra invisible",49.00,100,
                 new String[]{"Ultra invisible"},new String[]{"Ultradelgada nocturna"},
                 new String[]{"Archivos/Productos/Categorias/Salud/toallas.jpg",
-                "Archivos/Productos/Categorias/Salud/toallas2.jpg",
                 "Archivos/Productos/Categorias/Salud/toallas3.jpg",
                 "Archivos/Productos/Categorias/Salud/toallas4.jpg"},null,
                 "Salud",new String[]{"Salud","Higiene"});
