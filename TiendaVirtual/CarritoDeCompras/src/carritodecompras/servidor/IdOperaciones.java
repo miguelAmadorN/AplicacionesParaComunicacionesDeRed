@@ -26,4 +26,10 @@ public class IdOperaciones {
     public final static String LIBROS                      = "libros";
     public final static String TELEVISORES                 = "televisores";
     public final static String VIDEOJUEGOS                 = "videojuegos";
+    
+    public final static String AUTOS                       = "autos";
+    public final static String CALZADO                     = "calzado";
+    public final static String JOYERIA                     = "joyeria";
+    public final static String MODA                        = "moda";
+    public final static String SALUD                       = "salud";
 }
