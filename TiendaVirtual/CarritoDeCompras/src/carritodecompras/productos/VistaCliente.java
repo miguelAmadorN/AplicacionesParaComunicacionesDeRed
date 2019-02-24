@@ -5,6 +5,7 @@
  */
 package carritodecompras.productos;
 
+import ImagenesInterfaz.UIFunctions;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -82,6 +83,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         Image icon = Toolkit.getDefaultToolkit().getImage(getClass()
                         .getResource("/ImagenesInterfaz/Icono.png"));
         setIconImage(icon);
+        
         this.setTitle("CML EXPRESS"); 
     }
     
@@ -274,7 +276,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             }
             
             Nombre.setText(producto.getNombre());
-            Descripcion.setText(formatoDescripcion("Descripción: " + producto.getDescripcion(), 40));
+            Descripcion.setText(UIFunctions.formatoDescripcion("Descripción: " + producto.getDescripcion(), 40));
             Precio.setText("Precio: $" + producto.getPrecio());
             Existencias.setText("Existencias: " + producto.getExistencias());
             productoPrincipal = producto;
@@ -303,7 +305,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                                     + "c.u: " + pc.getProducto().getPrecio() +"</body></html>");
                 */
                 jrb = (JRadioButton)radio.get(i);
-                jrb.setText(formatoDescripcion(pc.getProducto().getNombre() + " " +
+                jrb.setText(UIFunctions.formatoDescripcion(pc.getProducto().getNombre() + " " +
                                                     " X" + pc.getCantidad() +"; "+ pc.getProducto().getDescripcion() +
                                                     "; " + "c.u: $" + pc.getProducto().getPrecio(), 20));
                 panel.add(jrb);
@@ -342,33 +344,6 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         return cadena;
     }
     
-    private String formatoDescripcion(String descripcion, int tope)
-    {
-        int aux = 0;
-        String cadena = "<html><body>___________________<br>";
-        
-        for(int i = 0; i < descripcion.length(); i++)
-        {
-            if(descripcion.charAt(i) == ' ' || i == tope)
-            {
-                if(i < tope)
-                {
-                    aux = i;
-                }
-                else
-                {
-                    if(i == tope && aux == 0)
-                        aux = tope;
-                    cadena += descripcion.substring(0, aux) + "<br>";
-                    descripcion = descripcion.substring(aux, descripcion.length() );
-                    i = 0;
-                }
-            }
-        }
-        cadena += descripcion + "<br>____________________";
-        cadena += "</body></html>"; 
-        return cadena;
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -979,7 +954,28 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         
         if(ae.getSource().equals(ComprarTodo))
         {
-            
+            if (productosCesta.size() > 0) {
+                DialogoCompra dialog = null;
+                try {
+                    dialog = new DialogoCompra(new javax.swing.JFrame(), true, productosCesta, ois, oos);
+                } catch (IOException ex) {
+                    Logger.getLogger(VistaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(VistaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+
+                    }
+                });
+                dialog.setVisible(true);
+            }
+            else
+            {
+                UIFunctions.informationMessage("No has seleccionado productos", "CML Express");
+            }
         }
  
         int i = 0;

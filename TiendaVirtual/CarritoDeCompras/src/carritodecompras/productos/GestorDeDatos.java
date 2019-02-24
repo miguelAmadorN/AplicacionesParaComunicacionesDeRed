@@ -151,7 +151,10 @@ public class GestorDeDatos {
         
         Producto pd4 = new ProductoArchivo(4,"Trampolin X trender","Con red de seguridad",3999.00,100,
                 new String[]{"Negro","Azul"},new String[]{"Acero", "Superficie de polietileno"},
-                new String[]{"Archivos/Productos/Categorias/Deportes/Producto4.jpg"},null,"Deportes",
+                new String[]{"Archivos/Productos/Categorias/Deportes/Producto4.jpg",
+                    "Archivos/Productos/Categorias/Deportes/Producto4.jpg"
+                
+                },null,"Deportes",
                 new String[]{"Trampolin","Juegos"});
         
         Producto pd5 = new ProductoArchivo(5,"Eliptica magnetica","Body Fit",2299.00,100,

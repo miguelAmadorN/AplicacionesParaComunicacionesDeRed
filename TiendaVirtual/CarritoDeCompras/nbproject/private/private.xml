@@ -12,10 +12,15 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/rodrigo/Documentos/Escuela/ESCOM/8vo%20Semestre/Aplicaciones%20para%20comunicaciones%20en%20red/TiendaVirtual/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/DialogoCategoria.java</file>
-            <file>file:/home/rodrigo/Documentos/Escuela/ESCOM/8vo%20Semestre/Aplicaciones%20para%20comunicaciones%20en%20red/TiendaVirtual/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/ControladorCategoria.java</file>
-            <file>file:/home/rodrigo/Documentos/Escuela/ESCOM/8vo%20Semestre/Aplicaciones%20para%20comunicaciones%20en%20red/TiendaVirtual/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/servidor/OpcionesServidor.java</file>
-            <file>file:/home/rodrigo/Documentos/Escuela/ESCOM/8vo%20Semestre/Aplicaciones%20para%20comunicaciones%20en%20red/TiendaVirtual/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/GestorDeDatos.java</file>
+            <file>file:/home/miguel/Escritorio/Practca2Redes2/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/AdministradorDeOperaciones.java</file>
+            <file>file:/home/miguel/Escritorio/Practca2Redes2/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/VistaCliente.java</file>
+            <file>file:/home/miguel/Escritorio/Practca2Redes2/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/CategoriaSocket.java</file>
+            <file>file:/home/miguel/Escritorio/Practca2Redes2/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/GestorDeDatos.java</file>
+            <file>file:/home/miguel/Escritorio/Practca2Redes2/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/CategoriaArchivo.java</file>
+            <file>file:/home/miguel/Escritorio/Practca2Redes2/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/DialogoCompra.java</file>
+            <file>file:/home/miguel/Escritorio/Practca2Redes2/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/DialogoPaqueteria.java</file>
+            <file>file:/home/miguel/Escritorio/Practca2Redes2/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/Cliente.java</file>
+            <file>file:/home/miguel/Escritorio/Practca2Redes2/AplicacionesParaComunicacionesDeRed/TiendaVirtual/CarritoDeCompras/src/carritodecompras/productos/Categoria.java</file>
         </group>
     </open-files>
 </project-private>
