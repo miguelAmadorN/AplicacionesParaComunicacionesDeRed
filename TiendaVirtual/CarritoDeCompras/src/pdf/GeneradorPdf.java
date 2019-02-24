@@ -19,7 +19,11 @@ import carritodecompras.productos.EmpresaDeEnvio;
 import carritodecompras.productos.InformacionDeEnvio;
 import carritodecompras.productos.TarjetaDePago;
 import carritodecompras.productos.Usuario;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 /**
  *
  * @author miguel
@@ -28,7 +32,7 @@ public class GeneradorPdf {
     private static final String LOGO = "src/pdf/LogoCML.png";
     public static final String RUTA_RECIBOS = "Archivos/Pedidos/";
     
-    public static void crearReciboDeCompra(CarritoCompras cc, String nombre) 
+    public static void crearReciboDeCompra(CarritoCompras cc, String nombre ) 
     throws IOException 
     {
         double Total = 0;
@@ -70,6 +74,10 @@ public class GeneradorPdf {
         contentStream.setLeading(20f);
         contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
         contentStream.setNonStrokingColor(Color.BLACK);
+        contentStream.newLine();
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+        contentStream.showText("Fecha: " + hourdateFormat.format(date) );
         contentStream.newLine();
         contentStream.showText("Cliente: " + u.getNombres() + " " + u.getPrimerApellido() 
                                 + " " + u.getSegundoApellido());
@@ -128,8 +136,9 @@ public class GeneradorPdf {
                        cc.getProductoCompra()[i].getProducto().getPrecio();
             contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
             contentStream.newLine();
-            contentStream.showText(cc.getProductoCompra()[i].getProducto().getNombre() + "     unidades: " 
-                                    + cc.getProductoCompra()[i].getCantidad() + "  $" + subtotal);
+            contentStream.showText(cc.getProductoCompra()[i].getProducto().getNombre() + 
+                    " cu: $" + cc.getProductoCompra()[i].getProducto().getPrecio() +
+                    "     unidades: "  + cc.getProductoCompra()[i].getCantidad() + "  $" + subtotal);
             Total += subtotal;
             
         }

@@ -154,6 +154,7 @@ public class DialogoCompra extends javax.swing.JDialog implements ActionListener
         ie.setEmail(emaile.getText());
         ie.setTelefono(telefono.getText());
         ie.setNombreYApellidos(nombreYApellidos.getText());
+        ie.setPais(pais.getText());
         usuario.setInformacionDeEnvio(ie);
 
         TarjetaDePago tp = new TarjetaDePago();
@@ -187,7 +188,10 @@ public class DialogoCompra extends javax.swing.JDialog implements ActionListener
             int tam = productosCesta.size();
             ProductoCompra pc[] = new ProductoCompra[tam];
             for (int i = 0; i < tam; i++) 
+            {
                 pc[i] = (ProductoCompra) productosCesta.get(i);
+                pc[i].getProducto().setImagenesEnBuffer(null);
+            }
             
             try {
                 boolean aceptado = AdministradorDeOperaciones.comprar(
