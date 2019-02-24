@@ -143,7 +143,7 @@ public class DialogoProducto extends javax.swing.JDialog {
         lp = mostrarProductos();
         
         
-        /*jBEliminar.addActionListener(new ActionListener() {
+        jBEliminar.addActionListener(new ActionListener() {
             
             public void actionPerformed(ActionEvent e) {
                 for(int i = 0; i < radio.length; i++){
@@ -155,7 +155,7 @@ public class DialogoProducto extends javax.swing.JDialog {
                 lp = mostrarProductos();
             }
 
-        });*/
+        });
 
     }
     

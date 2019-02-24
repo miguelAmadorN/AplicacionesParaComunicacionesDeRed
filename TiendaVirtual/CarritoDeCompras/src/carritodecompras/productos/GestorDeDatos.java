@@ -858,7 +858,7 @@ public class GestorDeDatos {
         
         
         ObjectOutputStream o = new ObjectOutputStream(
-                new FileOutputStream(RUTA_CATEGORIA));
+            new FileOutputStream(RUTA_CATEGORIA));
         o.writeObject(lp);
         o.close();
         /**
@@ -879,7 +879,7 @@ public class GestorDeDatos {
             throws IOException, ClassNotFoundException 
     {
         System.out.println("Serializando... \n");
-        Categoria ca = new CategoriaArchivo("Celulares",
+        Categoria ca = new CategoriaArchivo("Telefonia",
                 "Archivos/Categorias/Celulares.png",
                 "png",
                  "Archivos/Productos/Categorias/Telefonia/Telefonia.out"
@@ -898,7 +898,7 @@ public class GestorDeDatos {
         "Archivos/Productos/Categorias/Libros/Libros.out"
         );
 
-        Categoria ca5 = new CategoriaArchivo("Televisiones", "Archivos/Categorias/Televisiones.png", "png",
+        Categoria ca5 = new CategoriaArchivo("Televisores", "Archivos/Categorias/Televisiones.png", "png",
         "Archivos/Productos/Categorias/Televisores/Televisores.out");
         
         Categoria ca6 = new CategoriaArchivo("Videojuegos", "Archivos/Categorias/Videojuegos.png", "png",

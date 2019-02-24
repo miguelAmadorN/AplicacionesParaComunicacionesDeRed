@@ -38,14 +38,15 @@ public class ControladorProducto {
             return false;
         }finally{           
         }
+        ruta = "";
         return true;
     }
     
-    /*public  boolean eliminarProducto(ListaProductos lp, String cat){
+    public  boolean eliminarProducto(ListaProductos lp, String cat){
         rutaE = RUTA_CATEGORIA + cat + "/" + cat + aux;
         System.out.println("\nHola desde borrar: " + rutaE + "\n");
         try {
-            ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(ruta));
+            ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(rutaE));
             o.writeObject(lp);
             o.close();
         }catch(IOException e){
@@ -53,6 +54,7 @@ public class ControladorProducto {
             return false;
         }finally{
         }
+        rutaE = "";
         return true;  
-    }*/
+    }
 }

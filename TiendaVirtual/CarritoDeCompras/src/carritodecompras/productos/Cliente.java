@@ -33,16 +33,16 @@ public class Cliente
              * e implemnetar la logica para la interfaz gráfica del usuario
              */
             
-            
+            /*
             ListaCategoria lc = AdministradorDeOperaciones.obtenerTodasLasCategorias(oos, ois);
             lc.mostrar();
+            */
             
-            /*
             //Las categorias como CELULARES son constantes que se encuentran en IdOperaciones
            
-            ListaProductos lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois, VIDEOJUEGOS);
+            ListaProductos lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois, SALUD);
             lp.mostrar();
-            
+            /*
 
             
             ListaEmpresasDeEnvio lede = AdministradorDeOperaciones.obtenerEmpresasDeEnvio(oos, ois);
