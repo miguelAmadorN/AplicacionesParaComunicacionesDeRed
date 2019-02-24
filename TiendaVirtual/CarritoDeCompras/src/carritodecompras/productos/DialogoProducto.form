@@ -107,36 +107,38 @@
                               <Component id="jId" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="jBAgregar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="id5" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="id9" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="id10" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="id11" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jImagen4" min="-2" max="-2" attributes="0"/>
-                              <Component id="jImagen3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jImagen2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jImagen1" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="id7" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="id8" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPalabra1" max="32767" attributes="0"/>
-                              <Component id="jPalabra2" max="32767" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="jBAgregar" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="id5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="id9" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="id10" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="id11" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jImagen4" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jImagen3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jImagen2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jImagen1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="id7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="id8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jPalabra1" max="32767" attributes="0"/>
+                                      <Component id="jPalabra2" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>

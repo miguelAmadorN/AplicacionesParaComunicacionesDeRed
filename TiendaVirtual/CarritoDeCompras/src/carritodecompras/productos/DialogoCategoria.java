@@ -154,6 +154,7 @@ public class DialogoCategoria extends javax.swing.JDialog {
         jBAgregar = new javax.swing.JButton();
         jImagen = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         Agregar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jBEliminar = new javax.swing.JButton();
@@ -209,12 +210,13 @@ public class DialogoCategoria extends javax.swing.JDialog {
                         .addContainerGap())))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jImagen)))
+                .addComponent(jLabel2)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jImagen))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,8 +231,10 @@ public class DialogoCategoria extends javax.swing.JDialog {
                     .addComponent(jExtension, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jImagen)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jImagen)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBAgregar)
                 .addContainerGap())
@@ -304,6 +308,7 @@ public class DialogoCategoria extends javax.swing.JDialog {
                     creados = creados + n;
                 }
                 System.out.println("\nArchivo creado\n");
+                jLabel5.setText("Imagen seleccionada");
                 dos.close();
                 dis.close();
             }catch(Exception e){}
@@ -332,6 +337,7 @@ public class DialogoCategoria extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField jNombre;
     private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
