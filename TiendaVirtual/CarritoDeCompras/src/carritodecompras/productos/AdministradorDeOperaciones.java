@@ -148,8 +148,5 @@ public class AdministradorDeOperaciones {
         oos.writeObject(new Operacion(TERMINAR_CONEXION, null));
         oos.flush();
     }
-            
-    
-    
     
 }
