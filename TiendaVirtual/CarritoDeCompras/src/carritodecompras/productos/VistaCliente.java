@@ -182,7 +182,6 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             for (; i < NUMCATEGORIAS; i++) {
                 categorias[i].setVisible(false);
             }
-
         }
     }
     

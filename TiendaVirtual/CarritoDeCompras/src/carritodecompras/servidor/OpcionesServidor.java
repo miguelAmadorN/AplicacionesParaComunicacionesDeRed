@@ -6,6 +6,7 @@
 package carritodecompras.servidor;
 
 import carritodecompras.productos.DialogoPaqueteria;
+import carritodecompras.productos.DialogoProducto;
 import ImagenesInterfaz.PanelFondo;
 import ImagenesInterfaz.UIFunctions;
 import carritodecompras.productos.DialogoCategoria;
@@ -255,6 +256,23 @@ public class OpcionesServidor extends javax.swing.JFrame implements ActionListen
                 Logger.getLogger(OpcionesServidor.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(OpcionesServidor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        
+                    }
+                });
+            dialog.setVisible(true);
+        }
+        else if(ae.getSource().equals(this.Productos)){
+            System.out.println("\nSeleccionaste productos\n");
+            DialogoProducto dialog = null;
+            try {
+                dialog = new DialogoProducto(new javax.swing.JFrame(), true);
+            }catch(Exception e){
+                e.printStackTrace();
             }
             
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
