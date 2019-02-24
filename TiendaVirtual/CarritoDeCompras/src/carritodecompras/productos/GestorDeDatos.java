@@ -106,22 +106,19 @@ public class GestorDeDatos {
             String nombre = cc.getUsuario().getNombres() + cc.getUsuario().getPrimerApellido()
                     + c.getTimeInMillis() + ".pdf";
 
-            GeneradorPdf.crearReciboDeCompra(cc, nombre);
-
+            GeneradorPdf.crearReciboDeCompra(cc, nombre);     
             
-            oos.writeBoolean(true);
-            oos.flush();
             CorreoAdjunto ca = new CorreoAdjunto("CML.Express.ventas@gmail.com", "cmlexpress", RUTA_RECIBOS + nombre,
                     "Recibo.pdf", cc.getUsuario().getEmail(), "Recibo de compra", "Gracias por comprar con nosostros");
             ca.SendMail();
+            
         }
         catch(Exception e)
         {
             e.printStackTrace();
-            oos.writeBoolean(false);
-            oos.flush();
         }
-        
+        oos.writeBoolean(true);
+        oos.flush();
     }
     
     

@@ -622,10 +622,25 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JButton" name="Imagen2">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="fe" green="fe" red="fe" type="rgb"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="Imagen4">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="fe" green="fe" red="fe" type="rgb"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="Imagen1">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="fe" green="fe" red="fe" type="rgb"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="EliminarCesta">
       <Properties>
@@ -633,6 +648,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="Imagen3">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="fe" green="fe" red="fe" type="rgb"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

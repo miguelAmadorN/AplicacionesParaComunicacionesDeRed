@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 /**
  *
@@ -44,6 +45,7 @@ public class DialogoCompra extends javax.swing.JDialog implements ActionListener
             throws IOException, ClassNotFoundException 
     {
         super(parent, modal);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.ois = ois;
         this.oos = oos;
         this.productosCesta = productosCesta;
@@ -188,7 +190,20 @@ public class DialogoCompra extends javax.swing.JDialog implements ActionListener
                 pc[i] = (ProductoCompra) productosCesta.get(i);
             
             try {
-                AdministradorDeOperaciones.comprar(oos, ois, new CarritoCompras(pc, usuario));
+                boolean aceptado = AdministradorDeOperaciones.comprar(
+                                    oos, ois, new CarritoCompras(pc, usuario));
+                
+                if(aceptado)
+                {
+                      
+                    UIFunctions.informationMessage("La compra se ha realizado con exito. Por favor verifique su email",
+                             "Compra Exitosa");
+                    dispose(); 
+                } 
+                else
+                    UIFunctions.informationMessage("No se pudo realizar la compra varifique su email ", 
+                            "Datos Invalidos");
+                    
             } catch (IOException ex) {
                 Logger.getLogger(DialogoCompra.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {

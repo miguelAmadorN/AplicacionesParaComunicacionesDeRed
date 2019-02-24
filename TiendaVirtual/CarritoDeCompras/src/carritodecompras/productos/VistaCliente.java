@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.WindowConstants;
 
 /**
  *
@@ -36,14 +37,16 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
      * Creates new form VistaCliente
      */
     
-    private static final int NUMCATEGORIAS = 5;
-    private static final int NUMPRODUCTOS = 8;
+    private static final short NUMCATEGORIAS = 5;
+    private static final short NUMPRODUCTOS = 8;
     
-    private final int AnchoCategoriaBoton = 141;
-    private final int AltoCategoriaBoton = 70;
+    private final short AnchoCategoriaBoton = 141;
+    private final short AltoCategoriaBoton = 70;
     
-    private final int AnchoProductoBoton = 160;
-    private final int AltoProductoBoton = 90;
+    private final short AnchoProductoBoton = 160;
+    private final short AltoProductoBoton = 90;
+    
+    private final short MEDIDA_IMAGEN = 95;
     
     private JButton categorias[];
     private JButton productos[];
@@ -219,16 +222,21 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         {
             NombreCategoria.setText(lp.get(0).getCategoria().toUpperCase());
             ImageIcon img;
-            int i = 0;
-            for (i = botonInicial; i < botonFinal; i++) {
+            int i = 0, j;
+            for (i = botonInicial; i < botonFinal; i++) 
+            {
+                j = i % NUMPRODUCTOS;
+                productos[j].setVisible(true);
+                nombreProductos[j].setVisible(true);
                 img = new ImageIcon(lp.get(i).getImagenesEnBuffer()[0]);
-                productos[i].setIcon(new ImageIcon(img.getImage().getScaledInstance(AnchoProductoBoton,
+                productos[j].setIcon(new ImageIcon(img.getImage().getScaledInstance(AnchoProductoBoton,
                         AltoProductoBoton, java.awt.Image.SCALE_DEFAULT)));
-                nombreProductos[i].setText(recortarCadena(lp.get(i).getNombre()));
-                producto[i] = lp.get(i);
+                nombreProductos[j].setText(recortarCadena(lp.get(i).getNombre()));
+                producto[j] = lp.get(i);
             }
             i = botonFinal - botonInicial;
-            for (; i < NUMPRODUCTOS; i++) {
+            for (; i < NUMPRODUCTOS; i++) 
+            {
                 productos[i].setVisible(false);
                 nombreProductos[i].setVisible(false);
             }
@@ -247,8 +255,8 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 Imagen1.setVisible(true);
                 img = new ImageIcon(producto.getImagenesEnBuffer()[0]);
                 Imagen1.setIcon(new ImageIcon(img.getImage()
-                                    .getScaledInstance(Imagen1.getWidth(), 
-                                                       Imagen1.getHeight(), 
+                                    .getScaledInstance(MEDIDA_IMAGEN, 
+                                                       MEDIDA_IMAGEN, 
                                                        java.awt.Image.SCALE_DEFAULT)));
                 ImagenProductoPrincipal.setIcon(new ImageIcon(img.getImage()
                                     .getScaledInstance(ImagenProductoPrincipal.getWidth(), 
@@ -264,8 +272,8 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 Imagen2.setVisible(true);
                 img = new ImageIcon(producto.getImagenesEnBuffer()[1]);
                 Imagen2.setIcon(new ImageIcon(img.getImage()
-                                    .getScaledInstance(Imagen2.getWidth(), 
-                                                       Imagen2.getHeight(), 
+                                    .getScaledInstance(MEDIDA_IMAGEN, 
+                                                       MEDIDA_IMAGEN, 
                                                        java.awt.Image.SCALE_DEFAULT)));
             }
             else
@@ -279,8 +287,8 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 Imagen3.setVisible(true);
                 img = new ImageIcon(producto.getImagenesEnBuffer()[2]);
                 Imagen3.setIcon(new ImageIcon(img.getImage()
-                                    .getScaledInstance(Imagen3.getWidth(), 
-                                                       Imagen3.getHeight(), 
+                                    .getScaledInstance(MEDIDA_IMAGEN, 
+                                                       MEDIDA_IMAGEN, 
                                                        java.awt.Image.SCALE_DEFAULT)));
             }
             else
@@ -294,8 +302,8 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 Imagen4.setVisible(true);
                 img = new ImageIcon(producto.getImagenesEnBuffer()[3]);
                 Imagen4.setIcon(new ImageIcon(img.getImage()
-                                    .getScaledInstance(Imagen4.getWidth(), 
-                                                       Imagen4.getHeight(), 
+                                    .getScaledInstance(MEDIDA_IMAGEN, 
+                                                       MEDIDA_IMAGEN, 
                                                        java.awt.Image.SCALE_DEFAULT)));
             }else
             {
@@ -702,7 +710,15 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
+        Imagen2.setBackground(new java.awt.Color(254, 254, 254));
+
+        Imagen4.setBackground(new java.awt.Color(254, 254, 254));
+
+        Imagen1.setBackground(new java.awt.Color(254, 254, 254));
+
         EliminarCesta.setText("Eliminar");
+
+        Imagen3.setBackground(new java.awt.Color(254, 254, 254));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1004,11 +1020,31 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         }
         else if (ae.getSource().equals(SiguientesProductos)) 
         {
-            
+            posProductos++;
+            if(posProductos < anilloProductos)
+            {   
+                this.setProductos(posProductos * NUMPRODUCTOS, (posProductos + 1) * NUMPRODUCTOS);
+            }
+            else if(posProductos == anilloProductos && residuoProductos > 0)
+            {
+                this.setProductos(posProductos * NUMPRODUCTOS, lp.getSize());    
+            }
+            else
+            {
+               posProductos--; 
+            }
         }
         else if (ae.getSource().equals(AnterioresProductos)) 
         {
-            
+            posProductos--;
+            if(posProductos > -1)
+            {   
+                this.setProductos(posProductos * NUMPRODUCTOS, (posProductos + 1) * NUMPRODUCTOS);
+            }
+            else
+            {
+               posProductos++; 
+            }
         }
         else if (ae.getSource().equals(SiguientesCategorias)) 
         {
@@ -1016,7 +1052,6 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             if(posCategorias < anilloCategorias)
             {   
                 this.setCategorias(posCategorias * NUMCATEGORIAS, (posCategorias + 1) * NUMCATEGORIAS);
-               
             }
             else if(posCategorias == anilloCategorias && residuoCategorias > 0)
             {
@@ -1052,13 +1087,15 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(VistaCliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
+                /*
+                dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
-
+                        
                     }
                 });
+*/
                 dialog.setVisible(true);
             }
             else
@@ -1088,6 +1125,10 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                     try {
                         lp = AdministradorDeOperaciones.obtenerProductosDeUnaCategoria(oos, ois, 
                                                                                         categoria[i].getRuta());
+                        this.anilloProductos = (short) (lp.getSize() / NUMPRODUCTOS);
+                        this.residuoProductos = (short) (lp.getSize() % NUMPRODUCTOS);
+                        
+                        
                         setProductos( 0, NUMPRODUCTOS < lp.getSize() ? NUMPRODUCTOS : lp.getSize());
                         if(lp.getSize() > 0)
                             setProductoPrincipal(lp.get(0));
