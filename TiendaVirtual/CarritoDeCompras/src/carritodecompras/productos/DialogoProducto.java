@@ -332,31 +332,31 @@ public class DialogoProducto extends javax.swing.JDialog {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
                             .addComponent(jNombre)
                             .addComponent(jId)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jBAgregar)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(id5)
-                            .addComponent(id9)
-                            .addComponent(id10)
-                            .addComponent(id11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jImagen4)
-                            .addComponent(jImagen3)
-                            .addComponent(jImagen2)
-                            .addComponent(jImagen1))
-                        .addGap(38, 38, 38))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(id7)
-                            .addComponent(id8))
-                        .addGap(40, 40, 40)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPalabra1)
-                            .addComponent(jPalabra2))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jBAgregar))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(id5)
+                                    .addComponent(id9)
+                                    .addComponent(id10)
+                                    .addComponent(id11))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jImagen4)
+                                    .addComponent(jImagen3)
+                                    .addComponent(jImagen2)
+                                    .addComponent(jImagen1)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(id7)
+                                    .addComponent(id8))
+                                .addGap(40, 40, 40)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPalabra1)
+                                    .addComponent(jPalabra2))))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -494,6 +494,7 @@ public class DialogoProducto extends javax.swing.JDialog {
                     creados = creados + n;
                 }
                 System.out.println("\nArchivo creado\n");
+                id5.setText("Imagen 1 Seleccionada");
                 dos.close();
                 dis.close();
             }catch(Exception e){}
@@ -523,6 +524,7 @@ public class DialogoProducto extends javax.swing.JDialog {
                     creados = creados + n;
                 }
                 System.out.println("\nArchivo creado\n");
+                id11.setText("Imagen 4 Seleccionada");
                 dos.close();
                 dis.close();
             }catch(Exception e){}
@@ -552,6 +554,7 @@ public class DialogoProducto extends javax.swing.JDialog {
                     creados = creados + n;
                 }
                 System.out.println("\nArchivo creado\n");
+                id10.setText("Imagen 3 Seleccionada");
                 dos.close();
                 dis.close();
             }catch(Exception e){}
@@ -581,6 +584,7 @@ public class DialogoProducto extends javax.swing.JDialog {
                     creados = creados + n;
                 }
                 System.out.println("\nArchivo creado\n");
+                id9.setText("Imagen 2 Seleccionada");
                 dos.close();
                 dis.close();
             }catch(Exception e){}
