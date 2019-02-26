@@ -15,24 +15,30 @@ Amador Nava Miguel Ángel
 Salazar Vázquez Luis Rodrigo
 
 **Intefaz del Servidor**
+
 ![Servidor](VistaServidor.png)
 
 
 **Administrador de Categorías de los Productos**
+
 ![Categoria](AgregarCategoria.png)
 
 
 **Administrador de los Productos**
+
 ![Productos](AgregarProducto.png)
 
 
 **Recibo de Compra**
+
 ![Recibo](Recibo_Compra.png)
 
 
 **Interfaz del Cliente**
+
 ![Compra](Compra.png)
 
 
 **Formulario de compra**
+
 ![Compra](FormularioCompra.png)
