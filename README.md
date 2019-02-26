@@ -8,25 +8,31 @@ con una arquitectura Cliente-Servidor.
 Se almacena la información en archivos binarios haciendo
 altas, bajas de los inventarios.
 
-Elaborado por:
+**Elaborado por:**
 
 Amador Nava Miguel Ángel
+
 Salazar Vázquez Luis Rodrigo
 
 **Intefaz del Servidor**
 ![Servidor](VistaServidor.png)
 
+
 **Administrador de Categorías de los Productos**
 ![Categoria](AgregarCategoria.png)
+
 
 **Administrador de los Productos**
 ![Productos](AgregarProducto.png)
 
+
 **Recibo de Compra**
 ![Recibo](Recibo_Compra.png)
 
+
 **Interfaz del Cliente**
 ![Compra](Compra.png)
+
 
 **Formulario de compra**
 ![Compra](FormularioCompra.png)
