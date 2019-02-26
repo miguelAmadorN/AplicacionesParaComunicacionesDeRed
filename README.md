@@ -1,4 +1,4 @@
-# AplicacionesParaComunicacionesDeRed
+# Aplicaciones Para Comunicaciones De  Red
 **Práctica de Tienda Vitual**
 
 Se utiliza el envío de multiples objetos serializados
