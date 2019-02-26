@@ -183,7 +183,9 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
         radio = new ArrayList();
         
         jScrollPane2.getParent().setBackground(Color.WHITE);
-        
+        ImageIcon img = new ImageIcon("src/ImagenesInterfaz/carrito.png");
+        ComprarTodo.setIcon(new ImageIcon(img.getImage().getScaledInstance(ComprarTodo.getWidth(),
+                        ComprarTodo.getHeight(), java.awt.Image.SCALE_DEFAULT)));
      
     }
     
@@ -455,7 +457,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
 
         jPanel1.setBackground(new java.awt.Color(254, 254, 254));
 
-        ComprarTodo.setText("Comprar");
+        ComprarTodo.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -465,7 +467,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 .addGap(339, 339, 339)
                 .addComponent(NombreCategoria)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ComprarTodo)
+                .addComponent(ComprarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
         jPanel1Layout.setVerticalGroup(
@@ -473,7 +475,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ComprarTodo)
+                    .addComponent(ComprarTodo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(NombreCategoria)))
         );
 
@@ -545,7 +547,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SiguientesCategorias)
                     .addComponent(AnterioresCategorias))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Cantidad.setText("1");
@@ -706,7 +708,7 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AnterioresProductos)
                     .addComponent(SiguientesProductos))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Imagen2.setBackground(new java.awt.Color(254, 254, 254));
@@ -761,10 +763,10 @@ public class VistaCliente extends javax.swing.JFrame implements ActionListener{
                                 .addGap(18, 18, 18)))
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(EliminarCesta)
-                        .addGap(92, 92, 92))))
+                        .addGap(27, 27, 27))))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
