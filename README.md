@@ -29,6 +29,11 @@ Salazar Vázquez Luis Rodrigo
 ![Productos](AgregarProducto.png)
 
 
+**Administrador Paqueterías**
+
+![Productos](AgregarPaqueteria.png)
+
+
 **Recibo de Compra**
 
 ![Recibo](Recibo_Compra.png)
