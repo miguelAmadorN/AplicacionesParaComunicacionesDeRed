@@ -33,7 +33,7 @@ public class ControladorCategoria {
         }   
     }
     
-    public boolean agregarCategoria(CategoriaArchivo categoria, String rutaArchivo, String rutaCarpeta) {
+    public boolean agregarCategoria(CategoriaArchivo categoria, String rutaArchivo, String rutaCarpeta, String cat) {
         try {
             //Para agregar la categoría al archivo categorias.out
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(RUTA_CATEGORIA));
@@ -46,8 +46,24 @@ public class ControladorCategoria {
             //Para crear el archivo categoriaNueva.out en su directorio
             File carpeta = new File(rutaCarpeta);
             carpeta.mkdirs();
-            DataOutputStream dos = new DataOutputStream(new FileOutputStream(rutaArchivo));
-            dos.close();
+            
+            File archivoCategoria = new File(rutaArchivo);
+            if(!archivoCategoria.exists()){
+                ObjectOutputStream op = new ObjectOutputStream(new FileOutputStream(rutaArchivo));
+                ProductoArchivo pa[] = new ProductoArchivo[1];
+                pa[0] = new ProductoArchivo(1,"CualquierCosa","Veamos",10,100,new String[]{"Azul"},new String[]{"Metal"},
+                        new String[]{"Archivos/Productos/Categorias/Deportes/Producto1.jpg"},null,cat,new String[]{"lo que sea","lo que sea"});
+                ListaProductos lp = new ListaProductos(pa);
+                op.writeObject(lp);
+                op.close();
+            }
+            ControladorProducto cp = new ControladorProducto();
+            ObjectInputStream inCat = new ObjectInputStream(new FileInputStream(rutaArchivo));
+            ListaProductos lc1 = (ListaProductos)inCat.readObject();
+            lc1.remove(0);
+            cp.eliminarProducto(lc1, cat);
+            inCat.close();
+            
         }catch(IOException e){
             return false;
         } catch (ClassNotFoundException ex) {

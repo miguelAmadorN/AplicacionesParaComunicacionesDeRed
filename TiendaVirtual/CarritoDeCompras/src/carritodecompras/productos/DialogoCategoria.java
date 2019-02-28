@@ -87,8 +87,8 @@ public class DialogoCategoria extends javax.swing.JDialog {
                 
                 if(valido){
                     categoria.setImagen(ruta);
-                    cc.agregarCategoria(categoria,rutaArchivo,rutaCarpeta);
-
+                    cc.agregarCategoria(categoria,rutaArchivo,rutaCarpeta,jNombre.getText());
+                    lc = mostrarCategorias();
                 }
                 else
                     UIFunctions.warningMessage(error, "Datos invalidos");
